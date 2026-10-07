@@ -66,11 +66,18 @@
     if (!heroSlides.length) return;
     if (index < 0) index = heroSlides.length - 1;
     if (index >= heroSlides.length) index = 0;
+    if (index === currentHeroSlide) return;
+
+    const prevIndex = currentHeroSlide;
     currentHeroSlide = index;
 
     heroSlides.forEach((slide, i) => {
+      slide.classList.remove('prev-slide');
       if (i === currentHeroSlide) {
-        slide.classList.add('active');
+        slide.classList.add('active'); // Zooms in
+      } else if (i === prevIndex) {
+        slide.classList.add('prev-slide'); // Zooms out
+        slide.classList.remove('active');
       } else {
         slide.classList.remove('active');
       }
@@ -114,7 +121,7 @@
 
     startHeroCycle();
 
-    // Subtle parallax on scroll
+    // Subtle parallax & push-in zoom on scroll
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
@@ -123,7 +130,8 @@
           if (scrollY < window.innerHeight) {
             const activeSlideImg = document.querySelector('.hero-slide.active .hero-image');
             if (activeSlideImg) {
-              activeSlideImg.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0)`;
+              const zoomScale = (1 + scrollY * 0.00015).toFixed(4);
+              activeSlideImg.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0) scale(${zoomScale})`;
             }
           }
           ticking = false;
@@ -338,7 +346,7 @@
      5. SCROLL REVEAL ANIMATIONS (INTERSECTION OBSERVER)
      ========================================================================== */
   function initScrollReveals() {
-    const revealElements = document.querySelectorAll('.reveal-elem');
+    const revealElements = document.querySelectorAll('.reveal-elem, .finale-section');
     if (!revealElements.length) return;
 
     const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -388,7 +396,7 @@
   }
 
   /* ==========================================================================
-     7. CLEAN FULLSCREEN LIGHTBOX
+     7. CLEAN FULLSCREEN LIGHTBOX (WITH CINEMATIC ZOOM-IN & ZOOM-OUT)
      ========================================================================== */
   function updateLightbox(index) {
     if (index < 0) index = galleryData.length - 1;
@@ -399,6 +407,10 @@
     if (!data) return;
 
     if (lightboxImg) {
+      // Re-trigger crisp zoom-in animation on photo switch
+      lightboxImg.style.animation = 'none';
+      void lightboxImg.offsetWidth; // Force reflow
+      lightboxImg.style.animation = '';
       lightboxImg.src = data.src;
       lightboxImg.alt = data.alt;
     }
@@ -414,6 +426,7 @@
 
   function openLightbox(index) {
     if (!lightbox) return;
+    lightbox.classList.remove('closing');
     updateLightbox(index);
     lightbox.showModal ? lightbox.showModal() : lightbox.setAttribute('open', '');
     document.body.style.overflow = 'hidden';
@@ -421,8 +434,15 @@
 
   function closeLightboxModal() {
     if (!lightbox) return;
-    lightbox.close ? lightbox.close() : lightbox.removeAttribute('open');
-    document.body.style.overflow = '';
+    if (lightbox.classList.contains('closing')) return;
+
+    // Trigger smooth cinematic zoom-out and backdrop fade
+    lightbox.classList.add('closing');
+    setTimeout(() => {
+      lightbox.close ? lightbox.close() : lightbox.removeAttribute('open');
+      lightbox.classList.remove('closing');
+      document.body.style.overflow = '';
+    }, 320);
   }
 
   function initLightbox() {
