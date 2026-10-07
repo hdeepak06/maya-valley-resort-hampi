@@ -17,6 +17,32 @@
 <body>
 
   <!-- =====================================================
+       CINEMATIC FILM BURN & EMBER TRANSITION ELEMENTS
+  ===================================================== -->
+  <!-- Ambient Floating Embers Canvas -->
+  <canvas id="emberCanvas" class="ember-canvas" aria-hidden="true"></canvas>
+
+  <!-- Full-Screen Film Burn Light Leak Transition Overlay -->
+  <div class="film-burn-overlay" id="filmBurnOverlay" aria-hidden="true">
+    <div class="burn-flare-layer"></div>
+    <div class="burn-heatwave"></div>
+  </div>
+
+  <!-- Global SVG Defs for Burning Seams -->
+  <svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+    <defs>
+      <linearGradient id="burnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#FF3D00"/>
+        <stop offset="20%" stop-color="#FF9100"/>
+        <stop offset="40%" stop-color="#FFF176"/>
+        <stop offset="60%" stop-color="#FF5722"/>
+        <stop offset="80%" stop-color="#FFD600"/>
+        <stop offset="100%" stop-color="#FF3D00"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- =====================================================
        STREAMING-STYLE FIXED NAVIGATION
   ===================================================== -->
   <header class="netflix-nav" id="netflixNav">
@@ -134,6 +160,15 @@
       </div>
     </section>
 
+    <!-- Molten Burn Seam: Hero to Rail -->
+    <div class="burn-seam" aria-hidden="true">
+      <div class="burn-seam-glow"></div>
+      <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <path d="M0,30 Q180,8 360,35 T720,15 T1080,42 T1440,22 L1440,60 L0,60 Z" fill="#050508"/>
+        <path class="burn-seam-molten" d="M0,30 Q180,8 360,35 T720,15 T1080,42 T1440,22" fill="none" stroke="url(#burnGrad)" stroke-width="4.5"/>
+      </svg>
+    </div>
+
     <!-- =====================================================
          2. CINEMATIC CONTENT CARDS RAIL
     ===================================================== -->
@@ -234,13 +269,22 @@
       </div>
     </section>
 
+    <!-- Molten Burn Seam: Rail to Story -->
+    <div class="burn-seam" aria-hidden="true">
+      <div class="burn-seam-glow"></div>
+      <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <path d="M0,25 Q200,45 420,18 T840,40 T1260,15 L1440,30 L1440,60 L0,60 Z" fill="#050508"/>
+        <path class="burn-seam-molten" d="M0,25 Q200,45 420,18 T840,40 T1260,15 L1440,30" fill="none" stroke="url(#burnGrad)" stroke-width="4.5"/>
+      </svg>
+    </div>
+
     <!-- =====================================================
          3. CONTINUOUS CINEMATIC STORY SCENES (PHOTO TO PHOTO)
     ===================================================== -->
     <div class="story-stream-container" id="story">
 
       <!-- Scene 1: A Place to Slow Down -->
-      <section class="stream-scene scene-slow" id="scene-slow">
+      <section class="stream-scene scene-slow" id="scene-slow" data-scene="philosophy">
         <div class="stream-bg-wrapper">
           <img src="./maya-valley9%20(1).webp" alt="Maya Valley Grounds & Canal" class="stream-img">
           <div class="stream-scrim"></div>
@@ -258,8 +302,17 @@
         </div>
       </section>
 
+      <!-- Molten Burn Seam between Scene 1 and Scene 2 -->
+      <div class="burn-seam" aria-hidden="true">
+        <div class="burn-seam-glow"></div>
+        <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,35 Q220,12 450,38 T900,18 T1350,42 L1440,25 L1440,60 L0,60 Z" fill="#050508"/>
+          <path class="burn-seam-molten" d="M0,35 Q220,12 450,38 T900,18 T1350,42 L1440,25" fill="none" stroke="url(#burnGrad)" stroke-width="5"/>
+        </svg>
+      </div>
+
       <!-- Scene 2: Stay Close to Hampi -->
-      <section class="stream-scene scene-close" id="scene-close">
+      <section class="stream-scene scene-close" id="scene-close" data-scene="destination">
         <div class="stream-bg-wrapper">
           <img src="./maya-valley10%20(1).webp" alt="Hampi Boulder Landscape" class="stream-img">
           <div class="stream-scrim"></div>
@@ -277,8 +330,17 @@
         </div>
       </section>
 
+      <!-- Molten Burn Seam between Scene 2 and Scene 3 -->
+      <div class="burn-seam" aria-hidden="true">
+        <div class="burn-seam-glow"></div>
+        <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path d="M0,28 Q180,48 400,20 T820,44 T1240,16 L1440,32 L1440,60 L0,60 Z" fill="#050508"/>
+          <path class="burn-seam-molten" d="M0,28 Q180,48 400,20 T820,44 T1240,16 L1440,32" fill="none" stroke="url(#burnGrad)" stroke-width="5"/>
+        </svg>
+      </div>
+
       <!-- Scene 3: Let the Landscape Speak -->
-      <section class="stream-scene scene-landscape" id="scene-landscape">
+      <section class="stream-scene scene-landscape" id="scene-landscape" data-scene="architecture">
         <div class="stream-bg-wrapper">
           <img src="./maya-valley6%20(1).webp" alt="Stone Architecture & Terraces" class="stream-img">
           <div class="stream-scrim"></div>
@@ -296,6 +358,15 @@
         </div>
       </section>
 
+    </div>
+
+    <!-- Molten Burn Seam: Story to Gallery -->
+    <div class="burn-seam" aria-hidden="true">
+      <div class="burn-seam-glow"></div>
+      <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <path d="M0,32 Q240,10 480,38 T960,14 T1440,34 L1440,60 L0,60 Z" fill="#050508"/>
+        <path class="burn-seam-molten" d="M0,32 Q240,10 480,38 T960,14 T1440,34" fill="none" stroke="url(#burnGrad)" stroke-width="4.5"/>
+      </svg>
     </div>
 
     <!-- =====================================================
@@ -377,10 +448,19 @@
       </div>
     </section>
 
+    <!-- Molten Burn Seam: Gallery to Stay -->
+    <div class="burn-seam" aria-hidden="true">
+      <div class="burn-seam-glow"></div>
+      <svg class="burn-seam-edge" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <path d="M0,26 Q210,48 430,16 T860,42 T1290,18 L1440,30 L1440,60 L0,60 Z" fill="#050508"/>
+        <path class="burn-seam-molten" d="M0,26 Q210,48 430,16 T860,42 T1290,18 L1440,30" fill="none" stroke="url(#burnGrad)" stroke-width="4.5"/>
+      </svg>
+    </div>
+
     <!-- =====================================================
          5. STAY SECTION
     ===================================================== -->
-    <section class="stay-feature-scene" id="stay">
+    <section class="stay-feature-scene" id="stay" data-scene="stay">
       <div class="stay-bg-frame">
         <img src="./maya-valley5%20(1).webp" alt="Maya Valley Accommodations" class="stay-bg-photo">
         <div class="stay-cinematic-scrim"></div>
