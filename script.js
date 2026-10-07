@@ -1,13 +1,15 @@
 /**
  * MAYA VALLEY RESORT HAMPI
- * Luxury Cinematic Editorial Experience Engine
+ * Cinematic Editorial Experience & Transition Engine
  * 
  * Features:
- * - Buttery-smooth 60/120 FPS scroll & hero camera zoom settle
- * - Decoupled IntersectionObserver for scroll reveals & active navigation
- * - Subtle 3D card perspective tilt with mouse damping
- * - Fullscreen magazine-style image lightbox with ESC & arrow navigation
- * - Seamless mobile drawer navigation
+ * - Multi-Scene Cinematic Hero Reel with 35mm Ken Burns Cross-Dissolves
+ * - Primary Transition: Organic Hampi Sandstone / Dust Reveal Sweep
+ * - Special Transition: Analog 35mm Amber Film-Burn / Light-Leak Bloom
+ * - Secondary Transition: Subtle Parallax & Directional Scroll Reveals
+ * - Interactive 3D Perspective Mouse Damping
+ * - Fullscreen Travel Magazine Lightbox (ESC & Arrow Navigation)
+ * - Buttery-Smooth Navigation & Mobile Drawer
  */
 
 (function () {
@@ -15,10 +17,17 @@
 
   // DOM Elements
   const heroSection = document.getElementById('hero');
-  const heroImage = document.getElementById('heroImage');
+  const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+  const scenePills = Array.from(document.querySelectorAll('.scene-pill'));
   const luxuryNav = document.getElementById('luxuryNav');
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
-  
+
+  // Transition Overlays
+  const sandstoneSweep = document.getElementById('sandstoneSweep');
+  const analogLightLeak = document.getElementById('analogLightLeak');
+  let isTransitionActive = false;
+  let lastTransitionTime = 0;
+
   // Mobile Drawer
   const mobileHamburger = document.getElementById('mobileHamburger');
   const mobileDrawer = document.getElementById('mobileDrawer');
@@ -26,7 +35,7 @@
   const drawerBackdrop = document.getElementById('drawerBackdrop');
   const drawerItems = Array.from(document.querySelectorAll('.drawer-item'));
 
-  // Lightbox
+  // Lightbox Elements
   const lightbox = document.getElementById('luxuryLightbox');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxCaption = document.getElementById('lightboxCaption');
@@ -48,17 +57,62 @@
   });
 
   /* ==========================================================================
-     1. HERO CINEMATIC ENTRANCE & PARALLAX
+     1. CINEMATIC HERO REEL & AMBIENT SLIDESHOW
      ========================================================================== */
+  let currentHeroSlide = 0;
+  let heroCycleTimer = null;
+
+  function setHeroSlide(index) {
+    if (!heroSlides.length) return;
+    if (index < 0) index = heroSlides.length - 1;
+    if (index >= heroSlides.length) index = 0;
+    currentHeroSlide = index;
+
+    heroSlides.forEach((slide, i) => {
+      if (i === currentHeroSlide) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+
+    scenePills.forEach((pill, i) => {
+      if (i === currentHeroSlide) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+  }
+
+  function startHeroCycle() {
+    if (heroCycleTimer) clearInterval(heroCycleTimer);
+    heroCycleTimer = setInterval(() => {
+      setHeroSlide((currentHeroSlide + 1) % heroSlides.length);
+    }, 7500);
+  }
+
   function initHero() {
     if (!heroSection) return;
 
-    // Trigger slow cinematic entrance
+    // Trigger initial cinematic entrance
     requestAnimationFrame(() => {
       setTimeout(() => {
         heroSection.classList.add('loaded');
       }, 100);
     });
+
+    // Scene Selector Pills
+    scenePills.forEach((pill) => {
+      pill.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetIndex = parseInt(pill.getAttribute('data-target-scene'), 10) || 0;
+        setHeroSlide(targetIndex);
+        startHeroCycle(); // Reset timer on manual selection
+      });
+    });
+
+    startHeroCycle();
 
     // Subtle parallax on scroll
     let ticking = false;
@@ -66,8 +120,11 @@
       if (!ticking) {
         requestAnimationFrame(() => {
           const scrollY = window.scrollY;
-          if (heroImage && scrollY < window.innerHeight) {
-            heroImage.style.transform = `translate3d(0, ${scrollY * 0.16}px, 0)`;
+          if (scrollY < window.innerHeight) {
+            const activeSlideImg = document.querySelector('.hero-slide.active .hero-image');
+            if (activeSlideImg) {
+              activeSlideImg.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0)`;
+            }
           }
           ticking = false;
         });
@@ -77,7 +134,66 @@
   }
 
   /* ==========================================================================
-     2. NAVIGATION SCROLL & ACTIVE SECTION HIGHLIGHT
+     2. CINEMATIC TRANSITION SYSTEM
+     - Primary: Organic Sandstone / Dust Reveal Sweep (~1.05s)
+     - Special: Analog 35mm Amber Light-Leak Bloom (~0.85s)
+     ========================================================================== */
+  function triggerSandstoneSweep(midpointCallback) {
+    if (!sandstoneSweep) {
+      if (midpointCallback) midpointCallback();
+      return;
+    }
+
+    if (isTransitionActive) return;
+    isTransitionActive = true;
+    lastTransitionTime = Date.now();
+
+    sandstoneSweep.classList.remove('sweep-active');
+    void sandstoneSweep.offsetWidth; // Force reflow
+    sandstoneSweep.classList.add('sweep-active');
+
+    // Midpoint callback right when sweep covers the screen
+    if (midpointCallback) {
+      setTimeout(() => {
+        midpointCallback();
+      }, 420);
+    }
+
+    setTimeout(() => {
+      sandstoneSweep.classList.remove('sweep-active');
+      isTransitionActive = false;
+    }, 1100);
+  }
+
+  function triggerAnalogLightLeak(midpointCallback) {
+    if (!analogLightLeak) {
+      if (midpointCallback) midpointCallback();
+      return;
+    }
+
+    if (isTransitionActive) return;
+    isTransitionActive = true;
+    lastTransitionTime = Date.now();
+
+    analogLightLeak.classList.remove('leak-active');
+    void analogLightLeak.offsetWidth; // Force reflow
+    analogLightLeak.classList.add('leak-active');
+
+    // Midpoint callback right when golden glow blooms
+    if (midpointCallback) {
+      setTimeout(() => {
+        midpointCallback();
+      }, 250);
+    }
+
+    setTimeout(() => {
+      analogLightLeak.classList.remove('leak-active');
+      isTransitionActive = false;
+    }, 900);
+  }
+
+  /* ==========================================================================
+     3. NAVIGATION SCROLL & ANCHOR TRANSITION INTEGRATION
      ========================================================================== */
   function initNav() {
     if (!luxuryNav) return;
@@ -120,27 +236,74 @@
 
     sections.forEach(sec => sectionObserver.observe(sec));
 
-    // Smooth Anchor Scroll
+    // Smooth Anchor Scroll with Cinematic Transitions
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#' || !targetId) return;
 
         const targetElem = document.querySelector(targetId);
-        if (targetElem) {
-          e.preventDefault();
+        if (!targetElem) return;
+
+        e.preventDefault();
+        const transitionType = this.getAttribute('data-transition');
+
+        const doScroll = () => {
           targetElem.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
           });
           closeDrawer();
+        };
+
+        if (transitionType === 'sandstone') {
+          triggerSandstoneSweep(doScroll);
+        } else if (transitionType === 'lightleak') {
+          triggerAnalogLightLeak(doScroll);
+        } else {
+          doScroll();
         }
       });
+    });
+
+    // In-Page Scroll Threshold Transitions (Debounced for luxurious feel)
+    const transitionSections = [
+      { id: 'about', type: 'sandstone' },
+      { id: 'dining', type: 'lightleak' },
+      { id: 'gallery', type: 'sandstone' }
+    ];
+
+    const scrollTransitionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const now = Date.now();
+          // Cooldown of 2800ms between automatic scroll triggers to prevent jarring
+          if (now - lastTransitionTime > 2800 && window.scrollY > 200) {
+            const secId = entry.target.getAttribute('id');
+            const match = transitionSections.find(s => s.id === secId);
+            if (match) {
+              if (match.type === 'sandstone') {
+                triggerSandstoneSweep();
+              } else if (match.type === 'lightleak') {
+                triggerAnalogLightLeak();
+              }
+            }
+          }
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.25
+    });
+
+    transitionSections.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) scrollTransitionObserver.observe(el);
     });
   }
 
   /* ==========================================================================
-     3. MOBILE DRAWER NAVIGATION
+     4. MOBILE DRAWER NAVIGATION
      ========================================================================== */
   function openDrawer() {
     if (!mobileDrawer) return;
@@ -172,7 +335,7 @@
   }
 
   /* ==========================================================================
-     4. SCROLL REVEAL ANIMATIONS (INTERSECTION OBSERVER)
+     5. SCROLL REVEAL ANIMATIONS (INTERSECTION OBSERVER)
      ========================================================================== */
   function initScrollReveals() {
     const revealElements = document.querySelectorAll('.reveal-elem');
@@ -195,7 +358,7 @@
   }
 
   /* ==========================================================================
-     5. SUBTLE 3D CARD PERSPECTIVE TILT
+     6. SUBTLE 3D CARD PERSPECTIVE TILT
      ========================================================================== */
   function init3DTilt() {
     // Only enable on desktop devices with fine hover pointer
@@ -225,7 +388,7 @@
   }
 
   /* ==========================================================================
-     6. CLEAN FULLSCREEN LIGHTBOX
+     7. CLEAN FULLSCREEN LIGHTBOX
      ========================================================================== */
   function updateLightbox(index) {
     if (index < 0) index = galleryData.length - 1;
@@ -307,22 +470,19 @@
   /* ==========================================================================
      INITIALIZATION ON DOM READY
      ========================================================================== */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initHero();
-      initNav();
-      initMobileMenu();
-      initScrollReveals();
-      init3DTilt();
-      initLightbox();
-    });
-  } else {
+  function initAll() {
     initHero();
     initNav();
     initMobileMenu();
     initScrollReveals();
     init3DTilt();
     initLightbox();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
   }
 
 })();

@@ -31,14 +31,14 @@
         </a>
 
         <nav class="nav-links" id="navLinks" aria-label="Primary Navigation">
-          <a href="#hero" class="nav-link active">HOME</a>
-          <a href="#about" class="nav-link">PHILOSOPHY</a>
-          <a href="#stay" class="nav-link">STAY</a>
-          <a href="#dining" class="nav-link">DINING</a>
-          <a href="#experiences" class="nav-link">EXPERIENCES</a>
-          <a href="#gallery" class="nav-link">GALLERY</a>
-          <a href="#location" class="nav-link">LOCATION</a>
-          <a href="#contact" class="nav-link">CONTACT</a>
+          <a href="#hero" class="nav-link active" data-transition="sandstone">HOME</a>
+          <a href="#about" class="nav-link" data-transition="sandstone">PHILOSOPHY</a>
+          <a href="#stay" class="nav-link" data-transition="lightleak">STAY</a>
+          <a href="#dining" class="nav-link" data-transition="lightleak">DINING</a>
+          <a href="#experiences" class="nav-link" data-transition="crossdissolve">EXPERIENCES</a>
+          <a href="#gallery" class="nav-link" data-transition="sandstone">GALLERY</a>
+          <a href="#location" class="nav-link" data-transition="crossdissolve">LOCATION</a>
+          <a href="#contact" class="nav-link" data-transition="sandstone">CONTACT</a>
         </nav>
       </div>
 
@@ -48,7 +48,7 @@
           <span>+91 93803 76356</span>
         </a>
 
-        <a href="#stay" class="nav-book-btn">
+        <a href="#stay" class="nav-book-btn" data-transition="lightleak">
           <span>RESERVE</span>
         </a>
 
@@ -92,19 +92,34 @@
 
     <!-- =====================================================
          1. CINEMATIC HERO
-         Full-screen, sharp real photo, lower-left framing, slow luxury entrance
+         Multi-scene reel: Architecture, Boulder Vista, Waterways
+         Slow luxury entrance, 35mm grain, and scene switcher
     ===================================================== -->
     <section class="cinematic-hero" id="hero">
-      <div class="hero-media-wrapper">
-        <img src="./maya-valley11%20(1).webp" alt="Maya Valley Panoramic Pavilion" class="hero-image" id="heroImage" fetchpriority="high">
+      <div class="hero-media-wrapper" id="heroMediaWrapper">
+        <div class="hero-slide active" data-slide="0">
+          <img src="./maya-valley11%20(1).webp" alt="Maya Valley Panoramic Thatched Pavilion Lounge" class="hero-image" fetchpriority="high">
+        </div>
+        <div class="hero-slide" data-slide="1">
+          <img src="./maya-valley10%20(1).webp" alt="Hampi Monolithic Boulders and Ancient Valley Vista" class="hero-image" loading="lazy">
+        </div>
+        <div class="hero-slide" data-slide="2">
+          <img src="./maya-valley9%20(1).webp" alt="Emerald Tungabhadra Canal Grounds and Palm Groves" class="hero-image" loading="lazy">
+        </div>
+
+        <!-- 35mm Analog Grain & Atmospheric Dust Vignette -->
+        <div class="hero-ambient-grain"></div>
         <div class="hero-vignette"></div>
       </div>
 
       <div class="hero-content">
         <div class="hero-editorial-block">
-          <div class="hero-location-tag reveal-init delay-1">
-            <span class="tag-bullet"></span>
-            <span class="tag-text">BASAPUR · HAMPI, KARNATAKA</span>
+          <div class="hero-meta-row reveal-init delay-1">
+            <div class="hero-location-tag">
+              <span class="tag-bullet"></span>
+              <span class="tag-text">BASAPUR · HAMPI, KARNATAKA</span>
+            </div>
+            <span class="hero-film-stamp">CINEMATIC REEL // HAMPI 2026</span>
           </div>
 
           <h1 class="hero-monumental-heading reveal-init delay-2">
@@ -116,13 +131,32 @@
             A quieter, unhurried way to experience the timeless landscape of Hampi.
           </p>
 
+          <!-- Interactive Cinematic Reel Pills (Architecture / Vista / Waterways) -->
+          <div class="hero-scene-selector reveal-init delay-3">
+            <button type="button" class="scene-pill active" data-target-scene="0" aria-label="View Thatched Pavilion">
+              <span class="pill-dot"></span>
+              <span class="pill-code">01</span>
+              <span class="pill-name">PAVILION ARCHITECTURE</span>
+            </button>
+            <button type="button" class="scene-pill" data-target-scene="1" aria-label="View Boulder Vista">
+              <span class="pill-dot"></span>
+              <span class="pill-code">02</span>
+              <span class="pill-name">HAMPI BOULDER VISTA</span>
+            </button>
+            <button type="button" class="scene-pill" data-target-scene="2" aria-label="View Canal Waterways">
+              <span class="pill-dot"></span>
+              <span class="pill-code">03</span>
+              <span class="pill-name">CANAL WATERWAYS</span>
+            </button>
+          </div>
+
           <div class="hero-cta-group reveal-init delay-4">
-            <a href="#about" class="btn-luxury-primary">
+            <a href="#about" class="btn-luxury-primary" data-transition="sandstone">
               <span class="btn-icon">✦</span>
               <span>EXPLORE THE RETREAT</span>
             </a>
 
-            <a href="#stay" class="btn-luxury-outline">
+            <a href="#stay" class="btn-luxury-outline" data-transition="lightleak">
               <span>RESERVE YOUR STAY</span>
             </a>
           </div>
@@ -141,7 +175,7 @@
       </div>
 
       <!-- Animated Scroll Down Indicator -->
-      <a href="#about" class="hero-scroll-indicator" aria-label="Scroll to Philosophy section">
+      <a href="#about" class="hero-scroll-indicator" aria-label="Scroll to Philosophy section" data-transition="sandstone">
         <span class="scroll-mouse">
           <span class="scroll-wheel"></span>
         </span>
@@ -608,6 +642,26 @@
       </footer>
     </div>
   </dialog>
+
+  <!-- =====================================================
+       CINEMATIC TRANSITION SYSTEM
+       1. Organic Hampi Sandstone / Dust Sweep Overlay (Major Transitions)
+       2. Analog 35mm Amber Film-Burn / Light-Leak Overlay (Special Selected Cuts)
+  ===================================================== -->
+  <div class="sandstone-sweep-overlay" id="sandstoneSweep" aria-hidden="true">
+    <div class="sweep-veil">
+      <div class="sweep-band sweep-base"></div>
+      <div class="sweep-band sweep-sandstone"></div>
+      <div class="sweep-band sweep-gold"></div>
+      <div class="sweep-dust-texture"></div>
+    </div>
+  </div>
+
+  <div class="analog-light-leak-overlay" id="analogLightLeak" aria-hidden="true">
+    <div class="light-leak-radial leak-left"></div>
+    <div class="light-leak-radial leak-right"></div>
+    <div class="light-leak-streak"></div>
+  </div>
 
   <script src="./script.js"></script>
 </body>
