@@ -88,12 +88,13 @@ img {
   display: block;
   user-select: none;
   -webkit-user-drag: none;
-  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
   image-rendering: high-quality;
-  filter: contrast(1.12) saturate(1.2) brightness(1.03);
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
-  transition: filter 0.4s ease, transform 0.4s ease;
+  filter: contrast(1.02) saturate(1.04);
+  transition: transform 0.4s ease, filter 0.4s ease;
 }
 
 a {
@@ -899,8 +900,8 @@ button {
 }
 
 .content-card:hover .card-img {
-  filter: contrast(1.18) saturate(1.25) brightness(1.08);
-  transform: scale(1.08);
+  filter: contrast(1.05) saturate(1.08) brightness(1.03);
+  transform: scale(1.05);
 }
 
 .content-card:hover .card-gold-line {
@@ -1847,7 +1848,6 @@ button {
   max-height: 100%;
   object-fit: contain;
   border-radius: 8px;
-  filter: contrast(1.15) saturate(1.22) brightness(1.04);
 }
 
 .lightbox-caption-bar {
