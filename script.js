@@ -22,12 +22,6 @@
   const luxuryNav = document.getElementById('luxuryNav');
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
-  // Transition Overlays
-  const sandstoneSweep = document.getElementById('sandstoneSweep');
-  const analogLightLeak = document.getElementById('analogLightLeak');
-  let isTransitionActive = false;
-  let lastTransitionTime = 0;
-
   // Mobile Drawer
   const mobileHamburger = document.getElementById('mobileHamburger');
   const mobileDrawer = document.getElementById('mobileDrawer');
@@ -142,66 +136,7 @@
   }
 
   /* ==========================================================================
-     2. CINEMATIC TRANSITION SYSTEM
-     - Primary: Organic Sandstone / Dust Reveal Sweep (~1.05s)
-     - Special: Analog 35mm Amber Light-Leak Bloom (~0.85s)
-     ========================================================================== */
-  function triggerSandstoneSweep(midpointCallback) {
-    if (!sandstoneSweep) {
-      if (midpointCallback) midpointCallback();
-      return;
-    }
-
-    if (isTransitionActive) return;
-    isTransitionActive = true;
-    lastTransitionTime = Date.now();
-
-    sandstoneSweep.classList.remove('sweep-active');
-    void sandstoneSweep.offsetWidth; // Force reflow
-    sandstoneSweep.classList.add('sweep-active');
-
-    // Midpoint callback right when sweep covers the screen
-    if (midpointCallback) {
-      setTimeout(() => {
-        midpointCallback();
-      }, 420);
-    }
-
-    setTimeout(() => {
-      sandstoneSweep.classList.remove('sweep-active');
-      isTransitionActive = false;
-    }, 1100);
-  }
-
-  function triggerAnalogLightLeak(midpointCallback) {
-    if (!analogLightLeak) {
-      if (midpointCallback) midpointCallback();
-      return;
-    }
-
-    if (isTransitionActive) return;
-    isTransitionActive = true;
-    lastTransitionTime = Date.now();
-
-    analogLightLeak.classList.remove('leak-active');
-    void analogLightLeak.offsetWidth; // Force reflow
-    analogLightLeak.classList.add('leak-active');
-
-    // Midpoint callback right when golden glow blooms
-    if (midpointCallback) {
-      setTimeout(() => {
-        midpointCallback();
-      }, 250);
-    }
-
-    setTimeout(() => {
-      analogLightLeak.classList.remove('leak-active');
-      isTransitionActive = false;
-    }, 900);
-  }
-
-  /* ==========================================================================
-     3. NAVIGATION SCROLL & ANCHOR TRANSITION INTEGRATION
+     2. NAVIGATION SCROLL & ACTIVE SECTION HIGHLIGHT
      ========================================================================== */
   function initNav() {
     if (!luxuryNav) return;
@@ -244,7 +179,7 @@
 
     sections.forEach(sec => sectionObserver.observe(sec));
 
-    // Smooth Anchor Scroll with Cinematic Transitions
+    // Smooth Anchor Scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
@@ -254,59 +189,12 @@
         if (!targetElem) return;
 
         e.preventDefault();
-        const transitionType = this.getAttribute('data-transition');
-
-        const doScroll = () => {
-          targetElem.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          closeDrawer();
-        };
-
-        if (transitionType === 'sandstone') {
-          triggerSandstoneSweep(doScroll);
-        } else if (transitionType === 'lightleak') {
-          triggerAnalogLightLeak(doScroll);
-        } else {
-          doScroll();
-        }
+        targetElem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        closeDrawer();
       });
-    });
-
-    // In-Page Scroll Threshold Transitions (Debounced for luxurious feel)
-    const transitionSections = [
-      { id: 'about', type: 'sandstone' },
-      { id: 'dining', type: 'lightleak' },
-      { id: 'gallery', type: 'sandstone' }
-    ];
-
-    const scrollTransitionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const now = Date.now();
-          // Cooldown of 2800ms between automatic scroll triggers to prevent jarring
-          if (now - lastTransitionTime > 2800 && window.scrollY > 200) {
-            const secId = entry.target.getAttribute('id');
-            const match = transitionSections.find(s => s.id === secId);
-            if (match) {
-              if (match.type === 'sandstone') {
-                triggerSandstoneSweep();
-              } else if (match.type === 'lightleak') {
-                triggerAnalogLightLeak();
-              }
-            }
-          }
-        }
-      });
-    }, {
-      root: null,
-      threshold: 0.25
-    });
-
-    transitionSections.forEach(s => {
-      const el = document.getElementById(s.id);
-      if (el) scrollTransitionObserver.observe(el);
     });
   }
 
