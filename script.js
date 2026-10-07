@@ -2,16 +2,13 @@
  * MAYA VALLEY RESORT HAMPI
  * Netflix-Inspired Cinematic Streaming Experience Engine
  * 
- * Features:
- * - Full-Screen Film Burn Light Leak Transition Engine (triggerFilmBurn)
- * - 60 FPS Ambient Floating Embers Particle Canvas
- * - Scene Burn Observer on scroll transitions
- * - Opening hero movie shot transition (scale 1.08 -> 1.0, staggered text fade-in)
- * - Navigation background transition (transparent -> rgba(8,8,12,.95))
- * - 60 FPS requestAnimationFrame lerp scroll camera
- * - Horizontal 3D gallery with dynamic scale(1) & rotateY(±5deg)
- * - Interactive featured content cards rail & fullscreen lightbox
- * - Mobile responsive drawer menu
+ * Performance & Smoothness:
+ * - 60/120 FPS butter-smooth scroll & lerp camera
+ * - Zero layout thrashing (active nav observer decoupled from render loop)
+ * - Hardware-accelerated ambient embers canvas (halo-fill, zero shadowBlur stall)
+ * - Cinematic film burn light leak transitions on user actions & scene cuts
+ * - Smooth 3D horizontal perspective gallery
+ * - Direct fullscreen image lightbox
  */
 
 (function () {
@@ -28,7 +25,6 @@
   let targetScrollY = window.scrollY;
   let currentScrollY = window.scrollY;
   let scrollVelocity = 0;
-  let lastScrollY = window.scrollY;
   let targetMouseX = 0;
   let targetMouseY = 0;
   let currentMouseX = 0;
@@ -79,11 +75,10 @@
 
   /* ==========================================================================
      1. CINEMATIC FILM BURN TRANSITION ENGINE
-     Fires a fiery light leak & heatwave across the viewport
      ========================================================================== */
   let burnTimer = null;
 
-  function triggerFilmBurn(duration = 750) {
+  function triggerFilmBurn(duration = 700) {
     if (!filmBurnOverlay) return;
 
     if (burnTimer) {
@@ -91,8 +86,7 @@
     }
 
     filmBurnOverlay.classList.remove('active');
-    // Force DOM reflow to restart animation reliably
-    void filmBurnOverlay.offsetWidth;
+    void filmBurnOverlay.offsetWidth; // Force reflow
     filmBurnOverlay.classList.add('active');
 
     burnTimer = setTimeout(() => {
@@ -102,17 +96,17 @@
   }
 
   /* ==========================================================================
-     2. FLOATING AMBIENT EMBERS CANVAS (60 FPS GPU-ACCELERATED)
-     Gentle glowing golden-orange sparks that react to scroll velocity
+     2. AMBIENT FLOATING EMBERS (ULTRA-HIGH PERFORMANCE 60/120 FPS)
+     Zero shadowBlur: uses dual-pass core + halo for silky smooth rendering
      ========================================================================== */
-  const EMBER_COUNT = 40;
+  const EMBER_COUNT = 36;
   const embers = [];
 
   const emberColors = [
-    'rgba(255, 179, 0, ',   // Golden Topaz
-    'rgba(255, 112, 67, ',  // Sunset Coral
-    'rgba(255, 61, 0, ',    // Fiery Orange
-    'rgba(255, 238, 88, '   // Light Gold
+    '255, 179, 0',   // Amber Gold
+    '255, 112, 67',  // Sunset Coral
+    '255, 61, 0',    // Fire Orange
+    '255, 238, 88'   // Light Gold
   ];
 
   function initEmbers() {
@@ -126,11 +120,11 @@
       embers.push({
         x: Math.random() * windowWidth,
         y: Math.random() * windowHeight,
-        r: Math.random() * 2.2 + 0.8,
-        speedX: (Math.random() - 0.5) * 0.6,
-        speedY: -(Math.random() * 0.8 + 0.4),
-        color: emberColors[Math.floor(Math.random() * emberColors.length)],
-        baseAlpha: Math.random() * 0.6 + 0.3,
+        r: Math.random() * 2 + 0.8,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: -(Math.random() * 0.7 + 0.3),
+        rgb: emberColors[Math.floor(Math.random() * emberColors.length)],
+        baseAlpha: Math.random() * 0.5 + 0.25,
         pulseSpeed: Math.random() * 0.04 + 0.02,
         pulsePhase: Math.random() * Math.PI * 2
       });
@@ -146,42 +140,45 @@
     }, { passive: true });
   }
 
-  function renderEmbers(time) {
+  function renderEmbers() {
     if (!emberCanvas || !emberCtx) return;
 
     emberCtx.clearRect(0, 0, windowWidth, windowHeight);
+    const velocityBoost = Math.min(2.0, Math.abs(scrollVelocity) * 0.04);
 
-    const velocityBoost = Math.min(2.5, Math.abs(scrollVelocity) * 0.05);
-
-    embers.forEach((ember) => {
+    for (let i = 0; i < embers.length; i++) {
+      const ember = embers[i];
       ember.pulsePhase += ember.pulseSpeed;
-      const currentAlpha = Math.max(0.1, Math.min(1, ember.baseAlpha + Math.sin(ember.pulsePhase) * 0.25 + velocityBoost * 0.2));
+      const alpha = Math.max(0.1, Math.min(1, ember.baseAlpha + Math.sin(ember.pulsePhase) * 0.2 + velocityBoost * 0.15));
 
-      // Draw glowing ember
+      // 1. Soft glowing outer halo
       emberCtx.beginPath();
-      emberCtx.arc(ember.x, ember.y, ember.r + (velocityBoost * 0.5), 0, Math.PI * 2);
-      emberCtx.fillStyle = ember.color + currentAlpha.toFixed(3) + ')';
-      emberCtx.shadowColor = '#FF9100';
-      emberCtx.shadowBlur = 10;
+      emberCtx.arc(ember.x, ember.y, (ember.r + velocityBoost * 0.4) * 2.5, 0, Math.PI * 2);
+      emberCtx.fillStyle = `rgba(${ember.rgb}, ${(alpha * 0.22).toFixed(3)})`;
+      emberCtx.fill();
+
+      // 2. Crisp bright core
+      emberCtx.beginPath();
+      emberCtx.arc(ember.x, ember.y, ember.r + velocityBoost * 0.25, 0, Math.PI * 2);
+      emberCtx.fillStyle = `rgba(${ember.rgb}, ${alpha.toFixed(3)})`;
       emberCtx.fill();
 
       // Motion
-      ember.x += ember.speedX + (currentMouseX * 0.3);
-      ember.y += ember.speedY - (velocityBoost * 1.5);
+      ember.x += ember.speedX + (currentMouseX * 0.25);
+      ember.y += ember.speedY - (velocityBoost * 1.2);
 
-      // Boundary Wrap
-      if (ember.y < -10) {
-        ember.y = windowHeight + 10;
+      // Boundary wrap
+      if (ember.y < -15) {
+        ember.y = windowHeight + 15;
         ember.x = Math.random() * windowWidth;
       }
-      if (ember.x < -10) ember.x = windowWidth + 10;
-      if (ember.x > windowWidth + 10) ember.x = -10;
-    });
+      if (ember.x < -15) ember.x = windowWidth + 15;
+      if (ember.x > windowWidth + 15) ember.x = -15;
+    }
   }
 
   /* ==========================================================================
      3. SCENE BURN OBSERVER (SCROLL-DRIVEN FILM BURN CUTS)
-     Ignites a subtle film burn light leak when transitioning between major scenes
      ========================================================================== */
   function initSceneBurnTransitions() {
     const scenes = document.querySelectorAll('.hero-feature, .cinematic-rail-section, .stream-scene, .horizontal-cinematic-gallery, .stay-feature-scene, .streaming-location-split, .streaming-finale-scene');
@@ -192,8 +189,8 @@
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.4) {
           const now = Date.now();
-          if (currentActiveScene && currentActiveScene !== entry.target && (now - lastBurnTime > 1200)) {
-            triggerFilmBurn(650);
+          if (currentActiveScene && currentActiveScene !== entry.target && (now - lastBurnTime > 1500)) {
+            triggerFilmBurn(600);
             lastBurnTime = now;
           }
           currentActiveScene = entry.target;
@@ -208,19 +205,16 @@
 
   /* ==========================================================================
      4. HERO MOVIE-SHOT ENTRANCE
-     Image: scale(1.08) -> scale(1)
-     Text: opacity 0 -> 1, translateY(30px) -> 0
      ========================================================================== */
   function initHeroEntrance() {
     root.style.setProperty('--hero-scale', '1.08');
     root.style.setProperty('--hero-opacity', '0');
-    root.style.setProperty('--hero-trans-y', '30px');
+    root.style.setProperty('--hero-trans-y', '25px');
 
     setTimeout(() => {
       root.style.setProperty('--hero-scale', '1');
       root.style.setProperty('--hero-opacity', '1');
       root.style.setProperty('--hero-trans-y', '0px');
-      // Subtle opening burn flash like an old 35mm projector lamp starting
       triggerFilmBurn(650);
     }, 180);
   }
@@ -241,7 +235,7 @@
   }
 
   /* ==========================================================================
-     6. SCROLL ENGINE & VELOCITY TRACKING
+     6. SCROLL ENGINE
      ========================================================================== */
   window.addEventListener('scroll', () => {
     targetScrollY = window.scrollY;
@@ -254,9 +248,11 @@
     if (!hGallerySection || !hGalleryTrack || hPanels.length === 0) return;
 
     const rect = hGallerySection.getBoundingClientRect();
+    // Early exit when section is offscreen to save 100% processing
+    if (rect.bottom < -100 || rect.top > windowHeight + 100) return;
+
     const trackHeight = hGallerySection.offsetHeight;
     const scrollableDistance = trackHeight - windowHeight;
-
     if (scrollableDistance <= 0) return;
 
     const progress = Math.max(0, Math.min(1, -rect.top / scrollableDistance));
@@ -264,17 +260,18 @@
     const maxTranslate = totalTrackWidth - windowWidth + (windowWidth * 0.2);
     const currentTranslateX = progress * maxTranslate;
 
-    hGalleryTrack.style.transform = `translate3d(-${currentTranslateX}px, 0, 0)`;
+    hGalleryTrack.style.transform = `translate3d(-${currentTranslateX.toFixed(1)}px, 0, 0)`;
 
     if (hGalleryProgressFill) {
-      hGalleryProgressFill.style.width = `${progress * 100}%`;
+      hGalleryProgressFill.style.width = `${(progress * 100).toFixed(1)}%`;
     }
 
     const viewportCenter = windowWidth / 2;
     let closestIndex = 0;
     let minDistance = Infinity;
 
-    hPanels.forEach((panel, idx) => {
+    for (let idx = 0; idx < hPanels.length; idx++) {
+      const panel = hPanels[idx];
       const pRect = panel.getBoundingClientRect();
       const pCenter = pRect.left + pRect.width / 2;
       const distFromCenter = (pCenter - viewportCenter) / (windowWidth * 0.5);
@@ -286,8 +283,8 @@
         closestIndex = idx;
       }
 
-      const scale = Math.max(0.82, 1 - Math.abs(clampedDist) * 0.18);
-      const rotateY = -clampedDist * 5;
+      const scale = Math.max(0.84, 1 - Math.abs(clampedDist) * 0.16);
+      const rotateY = -clampedDist * 4;
 
       panel.style.transform = `scale3d(${scale.toFixed(3)}, ${scale.toFixed(3)}, 1) rotateY(${rotateY.toFixed(2)}deg)`;
       
@@ -296,7 +293,7 @@
       } else {
         panel.classList.remove('active');
       }
-    });
+    }
 
     if (hCurIndex) {
       hCurIndex.textContent = (closestIndex + 1).toString().padStart(2, '0');
@@ -308,7 +305,7 @@
     if (hNavPrev) {
       hNavPrev.addEventListener('click', () => {
         if (!hGallerySection) return;
-        triggerFilmBurn(500);
+        triggerFilmBurn(450);
         const targetProgress = Math.max(0, (currentHIndex - 1) / (hPanels.length - 1));
         const rect = hGallerySection.getBoundingClientRect();
         const topOfSection = window.scrollY + rect.top;
@@ -320,7 +317,7 @@
     if (hNavNext) {
       hNavNext.addEventListener('click', () => {
         if (!hGallerySection) return;
-        triggerFilmBurn(500);
+        triggerFilmBurn(450);
         const targetProgress = Math.min(1, (currentHIndex + 1) / (hPanels.length - 1));
         const rect = hGallerySection.getBoundingClientRect();
         const topOfSection = window.scrollY + rect.top;
@@ -331,55 +328,48 @@
   }
 
   /* ==========================================================================
-     8. ACTIVE NAVIGATION LINK OBSERVER
+     8. ACTIVE NAVIGATION OBSERVER (THROTTLED - ZERO LAYOUT THRASHING)
      ========================================================================== */
-  function updateActiveNav() {
+  function initNavObserver() {
     const navLinks = document.querySelectorAll('.nav-primary-links .nav-link');
-    const sections = [
-      { id: 'hero', el: document.getElementById('hero') },
-      { id: 'curated-rail', el: document.getElementById('curated-rail') },
-      { id: 'story', el: document.getElementById('story') },
-      { id: 'gallery-horizontal', el: document.getElementById('gallery-horizontal') },
-      { id: 'stay', el: document.getElementById('stay') },
-      { id: 'location', el: document.getElementById('location') }
-    ];
+    const sections = ['hero', 'curated-rail', 'story', 'gallery-horizontal', 'stay', 'location'].map(id => document.getElementById(id)).filter(Boolean);
 
-    let activeId = 'hero';
-    sections.forEach(({ id, el }) => {
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      if (rect.top <= windowHeight * 0.4 && rect.bottom >= windowHeight * 0.1) {
-        activeId = id;
-      }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+          const id = entry.target.id;
+          navLinks.forEach((link) => {
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: [0.25, 0.5]
     });
 
-    navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (href === `#${activeId}`) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
+    sections.forEach(s => observer.observe(s));
   }
 
   /* ==========================================================================
-     9. CENTRALIZED 60 FPS ANIMATION LOOP
+     9. CENTRALIZED 60/120 FPS ANIMATION LOOP
      ========================================================================== */
-  function renderFrame(time) {
+  function renderFrame() {
     // 1. Mouse Lerp
     currentMouseX += (targetMouseX - currentMouseX) * 0.08;
     currentMouseY += (targetMouseY - currentMouseY) * 0.08;
-    root.style.setProperty('--mouse-x', currentMouseX.toFixed(4));
-    root.style.setProperty('--mouse-y', currentMouseY.toFixed(4));
+    root.style.setProperty('--mouse-x', currentMouseX.toFixed(3));
+    root.style.setProperty('--mouse-y', currentMouseY.toFixed(3));
 
-    // 2. Scroll Lerp & Velocity Calculation
+    // 2. Scroll Velocity & Lerp
     const prevScroll = currentScrollY;
-    currentScrollY += (targetScrollY - currentScrollY) * 0.1;
+    currentScrollY += (targetScrollY - currentScrollY) * 0.12;
     scrollVelocity = currentScrollY - prevScroll;
-    root.style.setProperty('--scroll', currentScrollY.toFixed(2));
 
-    // 3. Navigation Scrolled State
+    // 3. Navigation Scrolled Class
     if (netflixNav) {
       if (currentScrollY > 60) {
         netflixNav.classList.add('scrolled');
@@ -388,26 +378,23 @@
       }
     }
 
-    // 4. Update Horizontal Gallery
+    // 4. Update Horizontal Gallery (only when in view)
     updateHorizontalGallery();
 
-    // 5. Update Nav Active Links
-    updateActiveNav();
-
-    // 6. Draw Ambient Floating Embers
-    renderEmbers(time);
+    // 5. Draw Ambient Floating Embers
+    renderEmbers();
 
     requestAnimationFrame(renderFrame);
   }
 
   /* ==========================================================================
-     10. FULLSCREEN LIGHTBOX WITH FILM BURN REVEAL
+     10. FULLSCREEN LIGHTBOX
      ========================================================================== */
   function initLightbox() {
     if (!lightbox || contentCards.length === 0) return;
 
     function openLightbox(index) {
-      triggerFilmBurn(650);
+      triggerFilmBurn(600);
       currentGalleryIndex = (index + galleryData.length) % galleryData.length;
       const data = galleryData[currentGalleryIndex];
 
@@ -433,7 +420,7 @@
     }
 
     function closeLightbox() {
-      triggerFilmBurn(500);
+      triggerFilmBurn(450);
       if (typeof lightbox.close === 'function') {
         lightbox.close();
       } else {
@@ -452,7 +439,7 @@
     if (lightboxPrev) {
       lightboxPrev.addEventListener('click', (e) => {
         e.stopPropagation();
-        triggerFilmBurn(450);
+        triggerFilmBurn(400);
         openLightbox(currentGalleryIndex - 1);
       });
     }
@@ -460,7 +447,7 @@
     if (lightboxNext) {
       lightboxNext.addEventListener('click', (e) => {
         e.stopPropagation();
-        triggerFilmBurn(450);
+        triggerFilmBurn(400);
         openLightbox(currentGalleryIndex + 1);
       });
     }
@@ -469,18 +456,18 @@
       if (!lightbox.hasAttribute('open')) return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') {
-        triggerFilmBurn(450);
+        triggerFilmBurn(400);
         openLightbox(currentGalleryIndex - 1);
       }
       if (e.key === 'ArrowRight') {
-        triggerFilmBurn(450);
+        triggerFilmBurn(400);
         openLightbox(currentGalleryIndex + 1);
       }
     });
   }
 
   /* ==========================================================================
-     11. NAVIGATION & MOBILE DRAWER (WITH BURN TRANSITIONS)
+     11. NAVIGATION & MOBILE DRAWER
      ========================================================================== */
   function initNavigation() {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -492,9 +479,7 @@
         if (!targetEl) return;
 
         e.preventDefault();
-
-        // Trigger cinematic film burn on section jumps
-        triggerFilmBurn(700);
+        triggerFilmBurn(650);
 
         if (mobileDrawer && mobileDrawer.classList.contains('open')) {
           mobileDrawer.classList.remove('open');
@@ -547,13 +532,12 @@
     initHorizontalButtons();
     initLightbox();
     initNavigation();
+    initNavObserver();
     initSceneBurnTransitions();
 
-    // Start 60 FPS centralized animation loop
     requestAnimationFrame(renderFrame);
   });
 
-  // Global access for testing
   window.triggerFilmBurn = triggerFilmBurn;
 
 })();
