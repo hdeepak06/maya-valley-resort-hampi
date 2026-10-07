@@ -179,7 +179,7 @@
 
     sections.forEach(sec => sectionObserver.observe(sec));
 
-    // Smooth Anchor Scroll
+    // Smooth Anchor Scroll with Refined Landing Settle
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
@@ -194,6 +194,11 @@
           block: 'start'
         });
         closeDrawer();
+
+        // Subtle luxury landing settle
+        targetElem.classList.remove('section-landing-settle');
+        void targetElem.offsetWidth;
+        targetElem.classList.add('section-landing-settle');
       });
     });
   }

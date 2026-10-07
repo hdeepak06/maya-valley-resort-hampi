@@ -213,6 +213,8 @@ button {
    ========================================================================== */
 
 .btn-luxury-primary {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -232,6 +234,22 @@ button {
   cursor: pointer;
 }
 
+.btn-luxury-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  transition: transform 0.75s var(--ease-luxury);
+  pointer-events: none;
+}
+
+.btn-luxury-primary:hover::before {
+  transform: translateX(250%);
+}
+
 .btn-luxury-primary:hover {
   background-color: var(--gold-light);
   border-color: var(--gold-light);
@@ -240,6 +258,8 @@ button {
 }
 
 .btn-luxury-outline {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -257,6 +277,22 @@ button {
   backdrop-filter: blur(8px);
   transition: all var(--t-fast);
   cursor: pointer;
+}
+
+.btn-luxury-outline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(197, 160, 89, 0.25) 50%, transparent 100%);
+  transition: transform 0.75s var(--ease-luxury);
+  pointer-events: none;
+}
+
+.btn-luxury-outline:hover::before {
+  transform: translateX(250%);
 }
 
 .btn-luxury-outline:hover {
@@ -1368,6 +1404,11 @@ button {
   gap: 1.75rem;
 }
 
+.editorial-gallery-grid:hover .gallery-card:not(:hover) {
+  opacity: 0.78;
+  transform: scale(0.99);
+}
+
 .gallery-card {
   position: relative;
   grid-column: span 4;
@@ -1376,7 +1417,7 @@ button {
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-subtle);
   cursor: pointer;
-  transition: transform var(--t-med), border-color var(--t-med), box-shadow var(--t-med);
+  transition: transform 0.6s var(--ease-luxury), opacity 0.6s var(--ease-luxury), border-color var(--t-med), box-shadow var(--t-med);
 }
 
 .gallery-card.card-featured {
@@ -1385,7 +1426,7 @@ button {
 }
 
 .gallery-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px) scale(1.01);
   border-color: var(--border-gold-hover);
   box-shadow: var(--shadow-luxury);
 }
@@ -1876,9 +1917,38 @@ button {
   transform: scale(1.08);
 }
 
+/* Editorial Curtain Reveal Wipe */
+.reveal-curtain {
+  clip-path: inset(0 0 100% 0);
+  opacity: 0.15;
+  transition: clip-path 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  will-change: clip-path, opacity;
+}
+
+.reveal-curtain.revealed {
+  clip-path: inset(0 0 0% 0);
+  opacity: 1;
+}
+
 .reveal-elem.revealed {
   opacity: 1;
   transform: translate(0, 0) scale(1);
+}
+
+/* Smooth Section Landing Settle */
+.section-landing-settle {
+  animation: sectionLandingSettle 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sectionLandingSettle {
+  0% {
+    opacity: 0.88;
+    transform: scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Stagger Delays */
