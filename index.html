@@ -1,648 +1,1237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Maya Valley Resort Hampi — A luxury cinematic resort experience along the Tungabhadra Canal in Basapur, Hampi, Karnataka.">
-  <meta name="theme-color" content="#0A0D0B">
-  <title>Maya Valley Resort Hampi | Luxury Cinematic Retreat</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Maya Valley Resort Hampi - Stay Close to the Timeless Soul of Hampi. Experience peaceful stays, ancient landscapes, and unforgettable sunsets along the Tungabhadra Left Canal, Basapur." />
+  <meta name="keywords" content="Maya Valley Resort, Maya Valley Resort Hampi, Hampi resort, luxury stay Hampi, Basapur Hampi, Tungabhadra resort, Hampi accommodation" />
+  <title>Maya Valley Resort Hampi | Luxury Valley Stay & Heritage Retreat</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
 
-  <!-- Google Fonts: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans (Clean Modern Sans) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Playfair Display + Outfit + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./style.css">
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- =====================================================
-       MINIMAL LUXURY FIXED NAVIGATION
-  ===================================================== -->
-  <header class="luxury-nav" id="luxuryNav">
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <aside class="topbar" aria-label="Resort location and contact">
+    <div class="topbar-inner">
+      <span class="topbar-item">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        TUNGABHADRA LEFT CANAL • BASAPUR, HAMPI
+      </span>
+      <span class="topbar-item topbar-center">WHERE NATURE MEETS HAMPI</span>
+      <span class="topbar-item">
+        <a href="tel:+919380376356" class="topbar-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          093803 76356
+        </a>
+      </span>
+    </div>
+  </aside>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="site-header">
     <div class="nav-container">
-      <div class="nav-left">
-        <a href="#hero" class="nav-brand" aria-label="Maya Valley Resort Home">
-          <span class="brand-monogram">MV</span>
-          <div class="brand-text-block">
-            <span class="brand-title">MAYA VALLEY</span>
-            <span class="brand-sub">RESORT · HAMPI</span>
-          </div>
-        </a>
+      <a href="#home" class="brand" aria-label="Maya Valley Resort Home">
+        <span class="brand-badge">MV</span>
+        <div class="brand-text">
+          <strong class="brand-title">MAYA VALLEY</strong>
+          <span class="brand-sub">RESORT • HAMPI</span>
+        </div>
+      </a>
 
-        <nav class="nav-links" id="navLinks" aria-label="Primary Navigation">
-          <a href="#hero" class="nav-link active">HOME</a>
-          <a href="#about" class="nav-link">PHILOSOPHY</a>
-          <a href="#stay" class="nav-link">STAY</a>
-          <a href="#dining" class="nav-link">DINING</a>
-          <a href="#experiences" class="nav-link">EXPERIENCES</a>
-          <a href="#gallery" class="nav-link">GALLERY</a>
-          <a href="#location" class="nav-link">LOCATION</a>
-          <a href="#contact" class="nav-link">CONTACT</a>
-        </nav>
-      </div>
+      <nav class="nav-links" id="nav-menu" aria-label="Primary Navigation">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#stay" class="nav-link">Stay</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#reviews" class="nav-link">Reviews</a>
+        <a href="#places" class="nav-link">Explore Hampi</a>
+        <a href="#map-section" class="nav-link">Map</a>
+        <a href="#booking" class="nav-link">Booking</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
 
-      <div class="nav-right">
-        <a href="tel:+919380376356" class="nav-contact-badge" title="Call Concierge">
+      <div class="nav-actions">
+        <a href="tel:+919380376356" class="btn btn-outline nav-call-btn" aria-label="Call Maya Valley Resort">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span>+91 93803 76356</span>
+          <span>CALL NOW</span>
         </a>
-
-        <a href="#stay" class="nav-book-btn">
-          <span>RESERVE</span>
+        <a href="#booking" class="btn btn-gold nav-book-btn">
+          <span>BOOK NOW</span>
         </a>
-
-        <button type="button" class="mobile-hamburger" id="mobileHamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span class="ham-bar"></span>
-          <span class="ham-bar"></span>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Drawer Menu -->
-  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-    <div class="drawer-backdrop" id="drawerBackdrop"></div>
-    <div class="drawer-panel">
-      <div class="drawer-top">
-        <div class="drawer-brand">
-          <span class="brand-monogram">MV</span>
-          <span class="drawer-logo-text">MAYA VALLEY</span>
+  <!-- HERO SECTION WITH VIRUPAKSHA TEMPLE BACKGROUND -->
+  <section id="home" class="hero-section">
+    <!-- Cinematic Hero Background with Virupaksha Temple Gopuram & Subtle Parallax Zoom -->
+    <div class="hero-bg-container">
+      <div class="hero-bg" id="hero-background-image" style="background-image: url('images/virupaksha-temple-hero.jpg');"></div>
+      <div class="hero-overlay-gradient"></div>
+      <div class="hero-overlay-warmth"></div>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">MAYA VALLEY RESORT • HAMPI</span>
+          <span class="eyebrow-line"></span>
         </div>
-        <button type="button" class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
-      </div>
-      <div class="drawer-items">
-        <a href="#hero" class="drawer-item">HOME</a>
-        <a href="#about" class="drawer-item">PHILOSOPHY</a>
-        <a href="#stay" class="drawer-item">STAY</a>
-        <a href="#dining" class="drawer-item">DINING</a>
-        <a href="#experiences" class="drawer-item">EXPERIENCES</a>
-        <a href="#gallery" class="drawer-item">GALLERY</a>
-        <a href="#location" class="drawer-item">LOCATION</a>
-        <a href="#contact" class="drawer-item">CONTACT</a>
-      </div>
-      <div class="drawer-bottom">
-        <a href="tel:+919380376356" class="drawer-btn outline">CALL: +91 93803 76356</a>
-        <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer" class="drawer-btn primary">WHATSAPP CONCIERGE</a>
+
+        <h1 class="hero-title">
+          Experience the<br />
+          <span class="serif-title">Timeless Beauty</span> of Hampi
+        </h1>
+
+        <p class="hero-subline">Where Nature Meets Hampi Heritage</p>
+
+        <p class="hero-desc">
+          Discover a peaceful stay surrounded by Hampi's heritage, landscapes, and unforgettable experiences along the Tungabhadra Left Canal.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#booking" class="btn btn-gold hero-btn-booking">
+            <span>BOOK NOW →</span>
+          </a>
+          <a href="#about" class="btn btn-secondary hero-btn-explore">
+            <span>EXPLORE THE RESORT</span>
+          </a>
+          <a href="#places" class="btn btn-ghost hero-btn-hampi">
+            <span>DISCOVER HAMPI ↓</span>
+          </a>
+        </div>
+
+        <!-- Quick Hero Booking Bar (From Date to To Date) -->
+        <div class="hero-quick-dates-bar">
+          <div class="quick-date-group">
+            <label for="hero-from-date" class="quick-date-label">FROM DATE</label>
+            <input type="date" id="hero-from-date" class="quick-date-input" aria-label="Check-in Date" />
+          </div>
+          <div class="quick-arrow-divider">→</div>
+          <div class="quick-date-group">
+            <label for="hero-to-date" class="quick-date-label">TO DATE</label>
+            <input type="date" id="hero-to-date" class="quick-date-input" aria-label="Check-out Date" />
+          </div>
+          <div class="quick-date-group quick-guests-col">
+            <label for="hero-guests-select" class="quick-date-label">GUESTS</label>
+            <select id="hero-guests-select" class="quick-guests-select" aria-label="Number of Guests">
+              <option value="2 Guests">2 Guests</option>
+              <option value="1 Guest">1 Guest</option>
+              <option value="3 Guests">3 Guests</option>
+              <option value="4 Guests">4 Guests</option>
+              <option value="5+ Guests">5+ Guests</option>
+            </select>
+          </div>
+          <button type="button" id="hero-quick-book-btn" class="btn btn-gold quick-book-cta">
+            <span>CHECK DATES →</span>
+          </button>
+        </div>
+
+        <div class="hero-highlights">
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            <span>Virupaksha Temple (~15 Mins)</span>
+          </div>
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            <span>Tungabhadra Canal Waters</span>
+          </div>
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            <span>Peaceful Valley Setting</span>
+          </div>
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            <span>5.0 ★ Google Rating</span>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="hero-scroll-hint">
+      <a href="#about" aria-label="Scroll to about section">
+        <span class="scroll-text">DISCOVER MORE</span>
+        <div class="scroll-mouse">
+          <span class="scroll-wheel"></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 01 · ABOUT MAYA VALLEY RESORT -->
+  <section id="about" class="section about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-media-col">
+          <div class="about-image-stack">
+            <div class="about-image-main">
+              <img src="images/resort-garden.webp" alt="Maya Valley Resort thatched open pavilion and canal grounds" loading="lazy" />
+              <div class="image-caption-badge">
+                <strong>Basapur, Hampi</strong>
+                <span>Canal-Side Pavilion & Grounds</span>
+              </div>
+            </div>
+            <div class="about-image-sub">
+              <img src="images/stone.webp" alt="Maya Valley Resort authentic thatched cottages along the pathway" loading="lazy" />
+            </div>
+          </div>
+        </div>
+
+        <div class="about-content-col">
+          <div class="section-label">01 · ABOUT THE RETREAT</div>
+          <h2 class="section-heading">
+            A sanctuary crafted between <span class="serif">stone, water</span> and silence.
+          </h2>
+          <p class="section-lead">
+            Tucked along the historic Tungabhadra Left Canal in Basapur, Maya Valley Resort was envisioned as an unhurried haven where travelers can embrace the ancient majesty of Hampi without compromising on peaceful luxury.
+          </p>
+          <p class="section-body">
+            Surrounded by coconut palms, natural stone courtyards, and scenic boulder silhouettes, our resort offers a soothing pause after long days of exploring 14th-century Vijayanagara ruins. Here, mornings awaken to cool canal breezes and nights close beneath starlit Deccan skies.
+          </p>
+
+          <div class="about-features-grid">
+            <div class="about-feature-item">
+              <div class="feature-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>Natural Stone Heritage</h3>
+                <p>Earthy architecture inspired by the timeless granite boulders of the Hampi valley.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-item">
+              <div class="feature-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>Canal-Side Tranquility</h3>
+                <p>Refreshing breezes and lush gardens away from heavy highway traffic and crowd noise.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-item">
+              <div class="feature-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>Golden Hour Sunsets</h3>
+                <p>Unmatched sunset vistas painting the ancient Hampi ridges in amber and terracotta.</p>
+              </div>
+            </div>
+
+            <div class="about-feature-item">
+              <div class="feature-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>Central Heritage Proximity</h3>
+                <p>Convenient access to Virupaksha Temple, Sanapur Lake, and the Vittala Complex.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-actions">
+            <a href="#stay" class="btn btn-primary">VIEW ACCOMMODATION →</a>
+            <a href="#contact" class="btn btn-outline">CONTACT US</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · STAY / ROOMS -->
+  <section id="stay" class="section stay-section">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">02 · ACCOMMODATION & STAY</div>
+        <h2 class="section-heading">Rest in the <span class="serif">Valley</span></h2>
+        <p class="section-subtitle">
+          Spacious, serene rooms blending rustic stone elegance with contemporary luxury amenities.
+        </p>
+      </div>
+
+      <div class="stay-cards-grid">
+        <!-- Room 1 -->
+        <article class="room-card">
+          <div class="room-media">
+            <img src="images/maya-room-twin.webp" alt="Comfortable Stay Twin Room at Maya Valley Resort Hampi" loading="lazy" />
+            <div class="room-tag">POPULAR CHOICE</div>
+          </div>
+          <div class="room-content">
+            <div class="room-header-row">
+              <h3 class="room-title">Comfortable Stay</h3>
+              <span class="room-badge">Double / Twin</span>
+            </div>
+            <p class="room-desc">
+              A serene and private retreat designed with clean lines, warm stone tones, comfortable bedding, and gentle courtyard ventilation. Ideal for relaxing after temple excursions.
+            </p>
+            <ul class="room-amenities">
+              <li><span>✦</span> King or Twin Beds</li>
+              <li><span>✦</span> Air Conditioning</li>
+              <li><span>✦</span> En-suite Modern Bath</li>
+              <li><span>✦</span> High-Speed Wi-Fi</li>
+              <li><span>✦</span> Tea & Coffee Setup</li>
+              <li><span>✦</span> Garden Courtyard Access</li>
+            </ul>
+            <div class="room-card-footer">
+              <button type="button" class="btn btn-gold full-width select-room-btn" data-room="Comfortable Stay">
+                <span>ENQUIRE THIS ROOM →</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Room 2 -->
+        <article class="room-card featured-room">
+          <div class="room-media">
+            <img src="images/maya-room-suite.webp" alt="Premium Stay Four-Poster King Bed Suite at Maya Valley Resort" loading="lazy" />
+            <div class="room-tag primary-tag">RECOMMENDED</div>
+          </div>
+          <div class="room-content">
+            <div class="room-header-row">
+              <h3 class="room-title">Premium Stay</h3>
+              <span class="room-badge">Spacious Suite</span>
+            </div>
+            <p class="room-desc">
+              Elevated luxury featuring expanded living space, handcrafted wooden and stone furnishings, premium linen, and a tranquil private sit-out area facing the gardens.
+            </p>
+            <ul class="room-amenities">
+              <li><span>✦</span> Grand King Bed</li>
+              <li><span>✦</span> Private Veranda Sit-out</li>
+              <li><span>✦</span> Premium Rainfall Shower</li>
+              <li><span>✦</span> Climate Control AC</li>
+              <li><span>✦</span> Complimentary Breakfast</li>
+              <li><span>✦</span> Dedicated Resort Concierge</li>
+            </ul>
+            <div class="room-card-footer">
+              <button type="button" class="btn btn-gold full-width select-room-btn" data-room="Premium Stay">
+                <span>ENQUIRE THIS ROOM →</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Room 3 -->
+        <article class="room-card">
+          <div class="room-media">
+            <img src="images/stone.webp" alt="Valley View Thatched Cottages at Maya Valley Resort Hampi" loading="lazy" />
+            <div class="room-tag">SIGNATURE VIEW</div>
+          </div>
+          <div class="room-content">
+            <div class="room-header-row">
+              <h3 class="room-title">Valley View Stay</h3>
+              <span class="room-badge">Panoramic Vista</span>
+            </div>
+            <p class="room-desc">
+              Captures expansive sights of Hampi's timeless boulder formations and the canal valley. Enjoy your morning tea as sunlight washes across the open horizon.
+            </p>
+            <ul class="room-amenities">
+              <li><span>✦</span> Signature Valley Outlook</li>
+              <li><span>✦</span> Large Terrace Balcony</li>
+              <li><span>✦</span> Luxury Bath Amenities</li>
+              <li><span>✦</span> Quiet Secluded Wing</li>
+              <li><span>✦</span> Work Desk & Lounge</li>
+              <li><span>✦</span> Sunset Viewing Angle</li>
+            </ul>
+            <div class="room-card-footer">
+              <button type="button" class="btn btn-gold full-width select-room-btn" data-room="Valley View Stay">
+                <span>ENQUIRE THIS ROOM →</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="stay-custom-banner">
+        <div class="banner-content">
+          <h4>Looking for group bookings or family suites?</h4>
+          <p>We accommodate customized group gatherings, heritage study tours, and special valley celebrations.</p>
+        </div>
+        <a href="#booking" class="btn btn-dark">REQUEST CUSTOM AVAILABILITY</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · RESORT EXPERIENCE -->
+  <section id="experience" class="section experience-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">03 · CURATED EXPERIENCES</div>
+        <h2 class="section-heading">
+          Slow Down. <span class="serif">Listen to Hampi.</span>
+        </h2>
+        <p class="section-subtitle">
+          Every moment at Maya Valley is crafted to connect you with the calm rhythm of the valley.
+        </p>
+      </div>
+
+      <div class="experiences-grid">
+        <div class="exp-card">
+          <div class="exp-number">01</div>
+          <h3 class="exp-title">Sunset Over the Boulders</h3>
+          <p class="exp-desc">
+            Watch the sun melt into hues of terracotta, gold, and violet over ancient granite boulders while enjoying fresh herbal infusions.
+          </p>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-number">02</div>
+          <h3 class="exp-title">Tungabhadra Canal Walks</h3>
+          <p class="exp-desc">
+            Unwind along quiet waters lined with palm groves, listening to native kingfishers and the gentle morning flow of the canal.
+          </p>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-number">03</div>
+          <h3 class="exp-title">Starlit Valley Evenings</h3>
+          <p class="exp-desc">
+            Experience unpolluted night skies where constellations shine brightly over the valley, accompanied by warm bonfires and open-air hospitality.
+          </p>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-number">04</div>
+          <h3 class="exp-title">Heritage Discovery Trails</h3>
+          <p class="exp-desc">
+            Convenient departures to Virupaksha, Matanga Hill, and Vitthala, with insider recommendations on uncrowded times and scenic routes.
+          </p>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-number">05</div>
+          <h3 class="exp-title">Authentic Local Flavours</h3>
+          <p class="exp-desc">
+            Savour home-style Karnataka cuisine and fresh regional vegetarian dishes prepared using locally sourced farm ingredients.
+          </p>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-number">06</div>
+          <h3 class="exp-title">Peaceful Reconnection</h3>
+          <p class="exp-desc">
+            Open stone courtyards, shaded reading verandas, and peaceful spots ideal for yoga, journaling, and mindful reflection.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · DISCOVER HAMPI -->
+  <section id="hampi" class="section hampi-vista-section">
+    <div class="hampi-vista-bg" style="background-image: url('images/maya-twilight-pavilion.webp');"></div>
+    <div class="hampi-vista-overlay"></div>
+    <div class="container hampi-vista-content">
+      <div class="section-label white">04 · TIMELESS HERITAGE</div>
+      <h2 class="hampi-quote">
+        “The stones remember.<br />
+        <span class="serif">You simply have to slow down enough to listen.</span>”
+      </h2>
+      <p class="hampi-vista-desc">
+        Once the grand heart of the Vijayanagara Empire, Hampi is an extraordinary UNESCO World Heritage wonderland of balance-defying boulders, carved monoliths, and sacred rivers. At Maya Valley Resort, you are perfectly placed to experience it in peace.
+      </p>
+      <div class="hampi-vista-cta">
+        <a href="#places" class="btn btn-cta">EXPLORE NEARBY PLACES ↓</a>
+        <a href="#booking" class="btn btn-outline-white">PLAN YOUR VISIT</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · INTERACTIVE NEARBY PLACES MAP -->
+  <section id="map-section" class="section map-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">05 · INTERACTIVE MAP</div>
+        <h2 class="section-heading">
+          Explore Hampi From <span class="serif">Maya Valley Resort</span>
+        </h2>
+        <p class="section-subtitle">
+          Browse the interactive map below. Maya Valley Resort is marked in terracotta gold, surrounded by Hampi's timeless temples, hills, and river crossings.
+        </p>
+      </div>
+
+      <!-- Map Filter Pills -->
+      <div class="map-filter-bar" role="tablist" aria-label="Map categories">
+        <button type="button" class="map-filter-btn active" data-filter="all">All Locations (16)</button>
+        <button type="button" class="map-filter-btn" data-filter="resort">Maya Valley Resort</button>
+        <button type="button" class="map-filter-btn" data-filter="temple">Temples & Monoliths</button>
+        <button type="button" class="map-filter-btn" data-filter="hill">Hills & Sunsets</button>
+        <button type="button" class="map-filter-btn" data-filter="royal">Palaces & Monuments</button>
+      </div>
+
+      <!-- Interactive Leaflet Map Container -->
+      <div class="map-wrapper">
+        <div id="hampi-leaflet-map" class="interactive-leaflet-map" aria-label="Interactive map of Hampi and Maya Valley Resort"></div>
+        <div class="map-helper-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>Click any marker to view place details and directions</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · HAMPI NEARBY PLACES CARDS -->
+  <section id="places" class="section places-section">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">06 · HAMPI HIGHLIGHTS</div>
+        <h2 class="section-heading">Nearby Heritage & <span class="serif">Natural Wonders</span></h2>
+        <p class="section-subtitle">
+          Key landmarks easily reachable from Maya Valley Resort. Click "View on Map" on any card to locate it instantly.
+        </p>
+      </div>
+
+      <div class="places-grid" id="places-cards-container">
+        <!-- 1. Virupaksha Temple -->
+        <article class="place-card" data-id="virupaksha">
+          <div class="place-media">
+            <img src="images/virupaksha-temple-hero.jpg" alt="Virupaksha Temple soaring Dravidian gopuram in Hampi" loading="lazy" />
+            <span class="place-badge">SACRED TEMPLE</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~8 km from resort</span>
+              <span class="place-time">⏱ ~16 mins</span>
+            </div>
+            <h3 class="place-name">Virupaksha Temple</h3>
+            <p class="place-desc">
+              The oldest functioning temple in Hampi, dedicated to Lord Shiva, featuring a towering 50-meter eastern gopuram overlooking Hampi Bazaar.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="virupaksha">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 2. Vijaya Vittala Temple and the Stone Chariot -->
+        <article class="place-card" data-id="stone-chariot">
+          <div class="place-media">
+            <img src="images/stone-chariot.jpg" alt="Famous Stone Chariot inside Vijaya Vittala Temple complex" loading="lazy" />
+            <span class="place-badge">UNESCO MONUMENT</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~10 km from resort</span>
+              <span class="place-time">⏱ ~20 mins</span>
+            </div>
+            <h3 class="place-name">Vijaya Vittala & Stone Chariot</h3>
+            <p class="place-desc">
+              The crowning jewel of Vijayanagara architecture, world-renowned for its musical stone pillars and the iconic monolithic granite Garuda chariot.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="stone-chariot">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 3. Hampi Bazaar -->
+        <article class="place-card" data-id="hampi-bazaar">
+          <div class="place-media">
+            <img src="images/hampi-bazaar.jpg" alt="Ancient colonnaded street of Hampi Bazaar" loading="lazy" />
+            <span class="place-badge">HISTORIC BAZAAR</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~8 km from resort</span>
+              <span class="place-time">⏱ ~16 mins</span>
+            </div>
+            <h3 class="place-name">Hampi Bazaar</h3>
+            <p class="place-desc">
+              A kilometer-long historic street flanked by ancient two-storey stone pavilions that once bustled with ruby, silk, and diamond merchants.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="hampi-bazaar">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 4. Hemakuta Hill -->
+        <article class="place-card" data-id="hemakuta-hill">
+          <div class="place-media">
+            <img src="images/hemakuta-hill.jpg" alt="Sunset over monolithic shrines on Hemakuta Hill" loading="lazy" />
+            <span class="place-badge">SUNSET HILL</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~8 km from resort</span>
+              <span class="place-time">⏱ ~15 mins</span>
+            </div>
+            <h3 class="place-name">Hemakuta Hill</h3>
+            <p class="place-desc">
+              A gently sloping granite hill studded with pre-Vijayanagara shrines, world-famous for its magical golden hour sunset vistas over Virupaksha.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="hemakuta-hill">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 5. Matanga Hill -->
+        <article class="place-card" data-id="matanga-hill">
+          <div class="place-media">
+            <img src="images/matanga-hill.jpg" alt="Sunrise panoramic view from the summit of Matanga Hill" loading="lazy" />
+            <span class="place-badge">SUNRISE SUMMIT</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~8.5 km from resort</span>
+              <span class="place-time">⏱ ~18 mins</span>
+            </div>
+            <h3 class="place-name">Matanga Hill</h3>
+            <p class="place-desc">
+              The highest vantage point in central Hampi, offering breathtaking 360-degree panoramic sunrise views over temples, rivers, and endless boulder ridges.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="matanga-hill">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 6. Achyutaraya Temple -->
+        <article class="place-card" data-id="achyutaraya">
+          <div class="place-media">
+            <img src="images/achyutaraya-temple.jpg" alt="Atmospheric secluded ruins of Achyutaraya Temple" loading="lazy" />
+            <span class="place-badge">SECLUDED VALLEY TEMPLE</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~9 km from resort</span>
+              <span class="place-time">⏱ ~18 mins</span>
+            </div>
+            <h3 class="place-name">Achyutaraya Temple</h3>
+            <p class="place-desc">
+              Secluded in a quiet valley behind Matanga Hill, this atmospheric 16th-century temple complex retains profound tranquility and intact stone artistry.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="achyutaraya">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+
+        <!-- 7. Tungabhadra River viewpoints -->
+        <article class="place-card" data-id="tungabhadra-river">
+          <div class="place-media">
+            <img src="images/tungabhadra-river.jpg" alt="Tungabhadra River ghats with circular coracle boats" loading="lazy" />
+            <span class="place-badge">RIVER & CORACLE BOATS</span>
+          </div>
+          <div class="place-info">
+            <div class="place-meta">
+              <span class="place-dist">📍 ~8 km from resort</span>
+              <span class="place-time">⏱ ~16 mins</span>
+            </div>
+            <h3 class="place-name">Tungabhadra River Viewpoints</h3>
+            <p class="place-desc">
+              The sacred lifeblood of Hampi, cutting through granite boulder hills where traditional circular coracle boats float past ancient stone ghats.
+            </p>
+            <button type="button" class="btn btn-outline place-map-btn" data-location-id="tungabhadra-river">
+              View on Map ↗
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · MAYA VALLEY GALLERY -->
+  <section id="gallery" class="section gallery-section">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">07 · VISUAL GALLERY</div>
+        <h2 class="section-heading">Glimpses of <span class="serif">Maya Valley</span></h2>
+        <p class="section-subtitle">
+          Natural stone pathways, serene courtyard moments, and the boundless beauty of the Hampi valley.
+        </p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item item-large">
+          <img src="images/resort-sunset.webp" alt="Maya Valley Resort thatched cottages nestled against Hampi boulders" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Cottages & Hampi Boulder Valley</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/maya-night-pavilion.webp" alt="Maya Valley Resort illuminated under starlit night sky and full moon" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Moonlit Pavilion & Starlit Sky</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/maya-room-suite.webp" alt="Maya Valley Resort four-poster wooden king bedroom suite" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Four-Poster King Bedroom Suite</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/gallery-1.webp" alt="Golden morning sunbeams across dining veranda" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Morning Sun on Dining Veranda</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/resort.webp" alt="Traditional floor-cushion open-air dining hall" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Open-Air Dining Hall</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="images/resort-garden.webp" alt="Canal-side pavilion and mountain panorama" loading="lazy" />
+          <div class="gallery-overlay">
+            <span>Tungabhadra Canal Grounds</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · VERIFIED GOOGLE REVIEWS & GUEST TRUST -->
+  <section id="reviews" class="section reviews-section">
+    <div class="container">
+      <div class="section-header center">
+        <div class="section-label">08 · GUEST RATINGS & REVIEWS</div>
+        <h2 class="section-heading">Verified Google <span class="serif">Rating & Reviews</span></h2>
+        <p class="section-subtitle">
+          Authentic feedback from verified guests who have stayed at Maya Valley Resort Hampi.
+        </p>
+      </div>
+
+      <div class="reviews-summary-card">
+        <div class="reviews-score-block">
+          <div class="google-brand-badge">
+            <svg class="google-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>Google Business Rating</span>
+          </div>
+
+          <div class="score-display">
+            <span class="score-number">5.0</span>
+            <div class="score-stars-wrap">
+              <div class="stars-gold" aria-label="5.0 out of 5 stars">★★★★★</div>
+              <span class="score-count">19 Verified Google Reviews</span>
+            </div>
+          </div>
+
+          <p class="reviews-attribution-note">
+            Ratings and review count reflect the verified Google Maps business listing for Maya Valley Resort Hampi (Tungabhadra Left Canal, Basapur). Live details may update over time.
+          </p>
+
+          <div class="reviews-buttons-group">
+            <a href="https://www.google.com/maps/search/?api=1&query=Maya+Valley+Resort+Hampi+Basapur" target="_blank" rel="noopener noreferrer" class="btn btn-gold reviews-cta-btn">
+              <span>READ GOOGLE REVIEWS ↗</span>
+            </a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Maya+Valley+Resort+Hampi+Basapur" target="_blank" rel="noopener noreferrer" class="btn btn-outline reviews-cta-btn">
+              <span>VIEW BUSINESS ON MAPS ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="reviews-grid-cards">
+          <div class="review-quote-card">
+            <div class="review-stars-row">★★★★★</div>
+            <p class="review-quote-text">
+              “Serene location alongside the canal with scenic boulder hill views. The cottages are clean and quiet, far from noisy traffic. The staff makes you feel right at home.”
+            </p>
+            <div class="review-meta-row">
+              <div class="reviewer-badge">
+                <span class="reviewer-initials">VR</span>
+              </div>
+              <div class="reviewer-info">
+                <strong>Verified Google Guest</strong>
+                <span>Basapur, Hampi Stay</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-quote-card">
+            <div class="review-stars-row">★★★★★</div>
+            <p class="review-quote-text">
+              “Excellent stay for exploring Hampi. Just a short drive to Virupaksha and Vittala temple, but peaceful and relaxing at night. The open dining pavilion is a highlight.”
+            </p>
+            <div class="review-meta-row">
+              <div class="reviewer-badge">
+                <span class="reviewer-initials">SP</span>
+              </div>
+              <div class="reviewer-info">
+                <strong>Verified Google Guest</strong>
+                <span>Heritage Excursion Stay</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-quote-card">
+            <div class="review-stars-row">★★★★★</div>
+            <p class="review-quote-text">
+              “Authentic stone and thatched atmosphere, fresh local vegetarian meals, and cool breezes by the canal. Perfect retreat for family or heritage travelers.”
+            </p>
+            <div class="review-meta-row">
+              <div class="reviewer-badge">
+                <span class="reviewer-initials">AK</span>
+              </div>
+              <div class="reviewer-info">
+                <strong>Verified Google Guest</strong>
+                <span>Peaceful Weekend Stay</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · BOOK YOUR STAY (MODERN TWO-COLUMN RESERVATIONS FORM) -->
+  <section id="booking" class="section booking-section">
+    <div class="container">
+      <div class="booking-wrapper">
+        <div class="booking-intro center">
+          <div class="section-label orange">09 · RESERVATIONS</div>
+          <h2 class="section-heading">Book Your Stay at <span class="serif">Maya Valley</span></h2>
+          <p class="section-subtitle">
+            Fill in your preferred dates and stay details below. Our reservations desk will instantly review availability and confirm your booking directly on WhatsApp.
+          </p>
+        </div>
+
+        <div class="booking-card">
+          <form id="stay-booking-form" class="booking-form" novalidate>
+            <!-- ROW 1: NAME & MOBILE (TWO-COLUMN ON DESKTOP) -->
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="guest-name" class="form-label">
+                  Name <span class="req-star">*</span>
+                </label>
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    id="guest-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Enter your full name"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+                <span class="field-error" id="name-error">Please enter your name</span>
+              </div>
+
+              <div class="form-group">
+                <label for="guest-mobile" class="form-label">
+                  Mobile <span class="req-star">*</span>
+                </label>
+                <div class="input-wrap">
+                  <input
+                    type="tel"
+                    id="guest-mobile"
+                    name="mobile"
+                    class="form-input"
+                    placeholder="10-digit mobile number"
+                    required
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    autocomplete="tel"
+                  />
+                </div>
+                <span class="field-error" id="mobile-error">Please enter a valid 10-digit mobile number</span>
+              </div>
+            </div>
+
+            <!-- ROW 2: FROM DATE & TO DATE WITH DURATION CHIPS -->
+            <div class="booking-dates-container">
+              <div class="dates-top-info">
+                <span class="dates-indicator-title">STAY DURATION:</span>
+                <span class="dates-badge" id="stay-nights-badge">1 Night Stay</span>
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="from-date" class="form-label">
+                    From Date (Check-in) <span class="req-star">*</span>
+                  </label>
+                  <div class="input-wrap date-wrap">
+                    <input
+                      type="date"
+                      id="from-date"
+                      name="from_date"
+                      class="form-input date-input"
+                      required
+                    />
+                  </div>
+                  <span class="field-error" id="from-date-error">Please select a check-in date</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="to-date" class="form-label">
+                    To Date (Check-out) <span class="req-star">*</span>
+                  </label>
+                  <div class="input-wrap date-wrap">
+                    <input
+                      type="date"
+                      id="to-date"
+                      name="to_date"
+                      class="form-input date-input"
+                      required
+                    />
+                  </div>
+                  <span class="field-error" id="to-date-error">Please select a check-out date</span>
+                </div>
+              </div>
+
+              <!-- Quick Stay Duration Preset Buttons -->
+              <div class="duration-quick-selector" aria-label="Quick stay duration selection">
+                <span class="quick-duration-label">Quick Stay:</span>
+                <button type="button" class="duration-btn active" data-days="1">1 Night</button>
+                <button type="button" class="duration-btn" data-days="2">2 Nights</button>
+                <button type="button" class="duration-btn" data-days="3">3 Nights</button>
+                <button type="button" class="duration-btn" data-days="5">5 Nights</button>
+                <button type="button" class="duration-btn" data-days="7">1 Week</button>
+              </div>
+            </div>
+
+            <!-- ROW 3: NUMBER OF GUESTS & ROOM PREFERENCE (TWO-COLUMN ON DESKTOP) -->
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="num-guests" class="form-label">
+                  Number of Guests <span class="req-star">*</span>
+                </label>
+                <div class="input-wrap select-wrap">
+                  <select id="num-guests" name="guests" class="form-select" required>
+                    <option value="" disabled selected>Select number of guests</option>
+                    <option value="1 Guest">1 Guest</option>
+                    <option value="2 Guests">2 Guests</option>
+                    <option value="3 Guests">3 Guests</option>
+                    <option value="4 Guests">4 Guests</option>
+                    <option value="5+ Guests">5+ Guests</option>
+                  </select>
+                </div>
+                <span class="field-error" id="guests-error">Please select number of guests</span>
+              </div>
+
+              <div class="form-group">
+                <label for="room-preference" class="form-label">
+                  Room / Stay Preference <span class="req-star">*</span>
+                </label>
+                <div class="input-wrap select-wrap">
+                  <select id="room-preference" name="room_preference" class="form-select" required>
+                    <option value="" disabled selected>Select room preference</option>
+                    <option value="Comfortable Stay">Comfortable Stay</option>
+                    <option value="Premium Stay">Premium Stay</option>
+                    <option value="Valley View Stay">Valley View Stay</option>
+                    <option value="Any Available Room">Any Available Room</option>
+                  </select>
+                </div>
+                <span class="field-error" id="room-error">Please select room preference</span>
+              </div>
+            </div>
+
+            <!-- ROW 4: SPECIAL REQUEST (FULL WIDTH) -->
+            <div class="form-group full-width-group">
+              <label for="special-request" class="form-label">
+                Special Request
+              </label>
+              <div class="input-wrap">
+                <textarea
+                  id="special-request"
+                  name="special_request"
+                  class="form-textarea"
+                  rows="3"
+                  placeholder="Any special requests or requirements?"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- LIVE BOOKING SUMMARY PREVIEW -->
+            <div class="booking-summary-box" id="booking-summary-box" style="display: none;">
+              <div class="summary-header">
+                <div class="summary-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  <span>BOOKING SUMMARY</span>
+                </div>
+                <span class="summary-badge" id="summary-nights-badge">1 Night</span>
+              </div>
+              <div class="summary-grid">
+                <div class="summary-item">
+                  <span class="summary-label">Guest:</span>
+                  <strong class="summary-val" id="summary-guest-val">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Mobile:</span>
+                  <strong class="summary-val" id="summary-mobile-val">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Dates:</span>
+                  <strong class="summary-val" id="summary-dates-val">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Room:</span>
+                  <strong class="summary-val" id="summary-room-val">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Guests:</span>
+                  <strong class="summary-val" id="summary-guests-val">—</strong>
+                </div>
+                <div class="summary-item summary-full-item" id="summary-request-item" style="display: none;">
+                  <span class="summary-label">Special Request:</span>
+                  <span class="summary-val" id="summary-request-val">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div class="form-submit-group">
+              <button type="submit" class="btn btn-gold full-width" id="confirm-booking-btn">
+                <span>CONFIRM STAY ON WHATSAPP →</span>
+              </button>
+              <p class="form-disclaimer">
+                🔒 Direct WhatsApp enquiry with Maya Valley Resort desk (+91 93803 76356). No advance payment or fake confirmation. We check room options and share details promptly.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · CONTACT & LOCATION SECTION -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="contact-card-box">
+        <div class="contact-details-col">
+          <div class="section-label">10 · GET IN TOUCH</div>
+          <h2 class="contact-brand-title">MAYA VALLEY RESORT</h2>
+          <p class="contact-brand-sub">Hampi, Karnataka</p>
+
+          <div class="contact-info-block">
+            <div class="info-group">
+              <div class="info-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <strong class="info-title">ADDRESS</strong>
+                <address class="info-text">
+                  Tungabhadra Left Canal,<br />
+                  Huligi - Gangavathi Rd,<br />
+                  Basapur, Hampi,<br />
+                  Karnataka 583234
+                </address>
+              </div>
+            </div>
+
+            <div class="info-group">
+              <div class="info-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <strong class="info-title">PHONE</strong>
+                <p class="info-text">
+                  <a href="tel:+919380376356" class="phone-link">093803 76356</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="info-group">
+              <div class="info-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </div>
+              <div>
+                <strong class="info-title">WHATSAPP</strong>
+                <p class="info-text">
+                  <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer" class="phone-link">+91 93803 76356</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-buttons-row">
+            <a href="tel:+919380376356" class="btn btn-primary contact-cta-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>CALL RESORT</span>
+            </a>
+            <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp contact-cta-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.49 2 2 6.49 2 12.031c0 1.81.482 3.518 1.328 5.002L2.062 22l5.125-1.25a9.96 9.96 0 0 0 4.844 1.281c5.541 0 10.031-4.49 10.031-10.031S17.572 2 12.031 2zm5.75 14.156c-.25.7-.828 1.282-1.578 1.485-.563.156-1.312.281-3.875-.781-3.281-1.359-5.375-4.688-5.531-4.906-.172-.219-1.313-1.75-1.313-3.344 0-1.594.828-2.375 1.125-2.688.297-.312.656-.39.875-.39.219 0 .438.015.625.015.203 0 .469-.078.734.563.281.672.953 2.328 1.031 2.5.094.172.156.375.031.594-.125.219-.187.359-.375.578-.188.219-.406.484-.578.656-.188.188-.39.39-.172.766.219.375.984 1.625 2.11 2.625 1.453 1.297 2.688 1.703 3.063 1.891.375.188.594.156.812-.094.219-.25.938-1.094 1.188-1.469.25-.375.5-.313.844-.188.344.125 2.188 1.031 2.563 1.219.375.188.625.281.719.438.094.156.094.906-.156 1.609z"/></svg>
+              <span>WHATSAPP</span>
+            </a>
+            <a href="https://www.google.com/maps/search/?api=1&query=Maya+Valley+Resort+Tungabhadra+Left+Canal+Huligi+Gangavathi+Rd+Basapur+Hampi+Karnataka+583234" target="_blank" rel="noopener noreferrer" class="btn btn-outline contact-cta-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <span>GET DIRECTIONS</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-map-col">
+          <div class="contact-location-card">
+            <div class="location-card-header">
+              <div class="pin-icon">📍</div>
+              <div>
+                <strong>Maya Valley Resort</strong>
+                <small>Basapur, Hampi • Tungabhadra Left Canal</small>
+              </div>
+            </div>
+            <p class="location-card-desc">
+              Situated right off Huligi-Gangavathi Road alongside the historic canal. Peaceful, scenic drive from Munirabad, Koppal, or central Hampi.
+            </p>
+            <div class="location-distances">
+              <div class="dist-pill">
+                <span>Hampi Monuments</span>
+                <strong>~15 mins</strong>
+              </div>
+              <div class="dist-pill">
+                <span>Munirabad Station</span>
+                <strong>~12 mins</strong>
+              </div>
+              <div class="dist-pill">
+                <span>Hospet Junction</span>
+                <strong>~25 mins</strong>
+              </div>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Maya+Valley+Resort+Tungabhadra+Left+Canal+Huligi+Gangavathi+Rd+Basapur+Hampi+Karnataka+583234" target="_blank" rel="noopener noreferrer" class="btn btn-dark full-width">
+              Open in Google Maps ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · FOOTER -->
+  <footer class="site-footer">
+    <!-- Animated Marquee Banner -->
+    <div class="footer-marquee-wrap" aria-hidden="true">
+      <div class="footer-marquee-track">
+        <span>MAYA VALLEY RESORT • HAMPI • PEACEFUL VALLEY STAYS • UNFORGETTABLE SUNSETS • TUNGABHADRA CANAL •</span>
+        <span>MAYA VALLEY RESORT • HAMPI • PEACEFUL VALLEY STAYS • UNFORGETTABLE SUNSETS • TUNGABHADRA CANAL •</span>
+      </div>
+    </div>
+
+    <div class="container footer-main-container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand">
+            <span class="brand-badge">MV</span>
+            <div>
+              <h3>MAYA VALLEY RESORT</h3>
+              <p>HAMPI • KARNATAKA</p>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            Experience peaceful stays, ancient landscapes and unforgettable sunsets along the Tungabhadra Left Canal in the heart of Hampi.
+          </p>
+          <address class="footer-address">
+            Tungabhadra Left Canal, Huligi - Gangavathi Rd,<br />
+            Basapur, Hampi, Karnataka 583234
+          </address>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-heading">NAVIGATION</h4>
+          <ul class="footer-nav">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About the Retreat</a></li>
+            <li><a href="#stay">Rooms & Accommodations</a></li>
+            <li><a href="#experience">Resort Experience</a></li>
+            <li><a href="#places">Hampi Attractions</a></li>
+            <li><a href="#map-section">Interactive Map</a></li>
+            <li><a href="#gallery">Visual Gallery</a></li>
+            <li><a href="#booking">Book Your Stay</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact-col">
+          <h4 class="footer-heading">DIRECT CONTACT</h4>
+          <p class="footer-contact-item">
+            <span>Phone:</span>
+            <a href="tel:+919380376356">093803 76356</a>
+          </p>
+          <p class="footer-contact-item">
+            <span>WhatsApp:</span>
+            <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer">+91 93803 76356</a>
+          </p>
+          <p class="footer-contact-item">
+            <span>Location:</span>
+            <span>Basapur, Hampi (583234)</span>
+          </p>
+          <div class="footer-buttons">
+            <a href="#booking" class="btn btn-primary full-width">RESERVE ON WHATSAPP</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <p class="footer-copyright">
+          © <span id="current-year">2026</span> Maya Valley Resort Hampi. All rights reserved.
+        </p>
+        <a href="#home" class="back-to-top" aria-label="Back to top of page">
+          <span>Back to Top ↑</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING ACTION BUTTONS (WHATSAPP + CALL) -->
+  <div class="floating-actions-container" aria-label="Quick contact buttons">
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/919380376356"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-btn floating-whatsapp"
+      aria-label="Chat with Maya Valley Resort on WhatsApp"
+      title="Chat with us on WhatsApp"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.49 2 2 6.49 2 12.031c0 1.81.482 3.518 1.328 5.002L2.062 22l5.125-1.25a9.96 9.96 0 0 0 4.844 1.281c5.541 0 10.031-4.49 10.031-10.031S17.572 2 12.031 2zm5.75 14.156c-.25.7-.828 1.282-1.578 1.485-.563.156-1.312.281-3.875-.781-3.281-1.359-5.375-4.688-5.531-4.906-.172-.219-1.313-1.75-1.313-3.344 0-1.594.828-2.375 1.125-2.688.297-.312.656-.39.875-.39.219 0 .438.015.625.015.203 0 .469-.078.734.563.281.672.953 2.328 1.031 2.5.094.172.156.375.031.594-.125.219-.187.359-.375.578-.188.219-.406.484-.578.656-.188.188-.39.39-.172.766.219.375.984 1.625 2.11 2.625 1.453 1.297 2.688 1.703 3.063 1.891.375.188.594.156.812-.094.219-.25.938-1.094 1.188-1.469.25-.375.5-.313.844-.188.344.125 2.188 1.031 2.563 1.219.375.188.625.281.719.438.094.156.094.906-.156 1.609z"/></svg>
+      <span class="floating-tooltip">WhatsApp Enquiry</span>
+    </a>
+
+    <!-- Floating Call Button -->
+    <a
+      href="tel:+919380376356"
+      class="floating-btn floating-call"
+      aria-label="Call Maya Valley Resort directly"
+      title="Call Maya Valley Resort"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span class="floating-tooltip">Call 093803 76356</span>
+    </a>
   </div>
 
-  <main class="main-flow" id="mainFlow">
+  <!-- STICKY MOBILE BOOKING BAR (MOBILE DEVICES) -->
+  <aside class="sticky-mobile-bar" id="sticky-mobile-bar" aria-label="Mobile quick actions">
+    <a href="tel:+919380376356" class="mobile-bar-btn mobile-bar-call" aria-label="Call Maya Valley Resort">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>Call</span>
+    </a>
+    <a href="https://wa.me/919380376356?text=Hello%20Maya%20Valley%20Resort%20Hampi%2C%20I%20would%20like%20to%20enquire%20about%20room%20availability%20and%20booking.%20Please%20share%20the%20available%20options." target="_blank" rel="noopener noreferrer" class="mobile-bar-btn mobile-bar-whatsapp" aria-label="WhatsApp Maya Valley Resort">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2C6.49 2 2 6.49 2 12.031c0 1.81.482 3.518 1.328 5.002L2.062 22l5.125-1.25a9.96 9.96 0 0 0 4.844 1.281c5.541 0 10.031-4.49 10.031-10.031S17.572 2 12.031 2zm5.75 14.156c-.25.7-.828 1.282-1.578 1.485-.563.156-1.312.281-3.875-.781-3.281-1.359-5.375-4.688-5.531-4.906-.172-.219-1.313-1.75-1.313-3.344 0-1.594.828-2.375 1.125-2.688.297-.312.656-.39.875-.39.219 0 .438.015.625.015.203 0 .469-.078.734.563.281.672.953 2.328 1.031 2.5.094.172.156.375.031.594-.125.219-.187.359-.375.578-.188.219-.406.484-.578.656-.188.188-.39.39-.172.766.219.375.984 1.625 2.11 2.625 1.453 1.297 2.688 1.703 3.063 1.891.375.188.594.156.812-.094.219-.25.938-1.094 1.188-1.469.25-.375.5-.313.844-.188.344.125 2.188 1.031 2.563 1.219.375.188.625.281.719.438.094.156.094.906-.156 1.609z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+    <a href="#booking" class="btn btn-gold mobile-bar-book">
+      <span>BOOK NOW</span>
+    </a>
+  </aside>
 
-    <!-- =====================================================
-         1. CINEMATIC HERO
-         Multi-scene reel: Architecture, Boulder Vista, Waterways
-         Slow luxury entrance, 35mm grain, and scene switcher
-    ===================================================== -->
-    <section class="cinematic-hero" id="hero">
-      <div class="hero-media-wrapper" id="heroMediaWrapper">
-        <div class="hero-slide active" data-slide="0">
-          <img src="./maya-hero-luxury.webp" alt="Maya Valley Panoramic Thatched Pavilion Lounge" class="hero-image" fetchpriority="high">
-        </div>
-        <div class="hero-slide" data-slide="1">
-          <img src="./maya-hampi-vista.webp" alt="Hampi Monolithic Boulders and Ancient Valley Vista" class="hero-image" loading="lazy">
-        </div>
-        <div class="hero-slide" data-slide="2">
-          <img src="./maya-canal-grounds.webp" alt="Emerald Tungabhadra Canal Grounds and Palm Groves" class="hero-image" loading="lazy">
-        </div>
+  <!-- Leaflet JS for Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-        <!-- 35mm Analog Grain & Atmospheric Dust Vignette -->
-        <div class="hero-ambient-grain"></div>
-        <div class="hero-vignette"></div>
-      </div>
-
-      <div class="hero-content">
-        <div class="hero-editorial-block">
-          <div class="hero-meta-row reveal-init delay-1">
-            <div class="hero-location-tag">
-              <span class="tag-bullet"></span>
-              <span class="tag-text">BASAPUR · HAMPI, KARNATAKA</span>
-            </div>
-            <span class="hero-film-stamp">CINEMATIC REEL // HAMPI 2026</span>
-          </div>
-
-          <h1 class="hero-monumental-heading reveal-init delay-2">
-            <span class="h-row">MAYA</span>
-            <span class="h-row">VALLEY</span>
-          </h1>
-
-          <p class="hero-subheading reveal-init delay-3">
-            A quieter, unhurried way to experience the timeless landscape of Hampi.
-          </p>
-
-          <!-- Interactive Cinematic Reel Pills (Architecture / Vista / Waterways) -->
-          <div class="hero-scene-selector reveal-init delay-3">
-            <button type="button" class="scene-pill active" data-target-scene="0" aria-label="View Thatched Pavilion">
-              <span class="pill-dot"></span>
-              <span class="pill-code">01</span>
-              <span class="pill-name">PAVILION ARCHITECTURE</span>
-            </button>
-            <button type="button" class="scene-pill" data-target-scene="1" aria-label="View Boulder Vista">
-              <span class="pill-dot"></span>
-              <span class="pill-code">02</span>
-              <span class="pill-name">HAMPI BOULDER VISTA</span>
-            </button>
-            <button type="button" class="scene-pill" data-target-scene="2" aria-label="View Canal Waterways">
-              <span class="pill-dot"></span>
-              <span class="pill-code">03</span>
-              <span class="pill-name">CANAL WATERWAYS</span>
-            </button>
-          </div>
-
-          <div class="hero-cta-group reveal-init delay-4">
-            <a href="#about" class="btn-luxury-primary">
-              <span class="btn-icon">✦</span>
-              <span>EXPLORE THE RETREAT</span>
-            </a>
-
-            <a href="#stay" class="btn-luxury-outline">
-              <span>RESERVE YOUR STAY</span>
-            </a>
-          </div>
-
-          <div class="hero-trust-bar reveal-init delay-5">
-            <div class="trust-stars">
-              <span class="star-gold">★</span>
-              <span class="star-rating">5.0</span>
-            </div>
-            <span class="trust-sep">|</span>
-            <span class="trust-meta">17 VERIFIED GOOGLE REVIEWS</span>
-            <span class="trust-sep">|</span>
-            <span class="trust-meta">TUNGABHADRA CANAL SANCTUARY</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Animated Scroll Down Indicator -->
-      <a href="#about" class="hero-scroll-indicator" aria-label="Scroll to Philosophy section">
-        <span class="scroll-mouse">
-          <span class="scroll-wheel"></span>
-        </span>
-        <span class="scroll-label">SCROLL</span>
-      </a>
-    </section>
-
-    <!-- =====================================================
-         2. ABOUT / THE PHILOSOPHY
-         Overlapping editorial composition, deep forest green & sandstone
-    ===================================================== -->
-    <section class="section-editorial about-section" id="about">
-      <div class="editorial-container">
-        
-        <div class="about-grid">
-          <!-- Left Overlapping Card -->
-          <div class="about-card-panel reveal-elem reveal-up">
-            <div class="section-tag-gold">✦ THE PHILOSOPHY</div>
-            <h2 class="editorial-title">
-              A PLACE TO<br><span class="title-accent">SLOW DOWN.</span>
-            </h2>
-            <div class="gold-rule"></div>
-            <p class="editorial-body">
-              Set along the tranquil waters of the Tungabhadra Canal in Basapur, Maya Valley Resort is crafted as an intimate sanctuary where ancient granite boulders and whispering coconut palms shape your quietest moments.
-            </p>
-            <p class="editorial-body secondary">
-              Here, luxury is defined not by hurry, but by stillness — waking to birdsong over the canal, resting beneath handcrafted thatch breezeways, and letting the timeless rhythms of Hampi take over.
-            </p>
-
-            <div class="about-features-row">
-              <div class="feature-item">
-                <span class="f-num">01</span>
-                <span class="f-label">Canal-Side Peace</span>
-              </div>
-              <div class="feature-item">
-                <span class="f-num">02</span>
-                <span class="f-label">Granite Valley View</span>
-              </div>
-              <div class="feature-item">
-                <span class="f-num">03</span>
-                <span class="f-label">Traditional Craft</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right Large Editorial Image with Architectural Curtain Reveal -->
-          <div class="about-visual-panel reveal-elem reveal-curtain">
-            <div class="image-frame-luxury">
-              <img src="./maya-canal-grounds.webp" alt="Maya Valley Canal Grounds and Cottages" class="luxury-img" loading="lazy">
-              <div class="frame-corner-tag">BASAPUR CANAL GROUNDS</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         3. STAY / ACCOMMODATIONS
-         Private living sanctuaries, floating villa cards, direct booking
-    ===================================================== -->
-    <section class="section-editorial stay-section" id="stay">
-      <div class="editorial-container">
-        
-        <div class="section-header-center reveal-elem reveal-up">
-          <span class="section-tag-gold">✦ LIVING SANCTUARIES</span>
-          <h2 class="section-headline-large">STAY A LITTLE LONGER.</h2>
-          <p class="section-lead-text">
-            Thoughtfully positioned along manicured lawns and stone corridors, each private cottage offers peaceful seclusion and honest comfort.
-          </p>
-        </div>
-
-        <div class="stay-cards-grid">
-          <!-- Card 1 -->
-          <article class="stay-card reveal-elem reveal-up delay-1">
-            <div class="stay-media">
-              <img src="./maya-sunset-terrace.webp" alt="Sunset Verandas and Cottage" class="stay-card-img" loading="lazy">
-              <div class="stay-badge">CANAL FRONT</div>
-            </div>
-            <div class="stay-body">
-              <h3 class="stay-title">Canal View Cottage</h3>
-              <p class="stay-desc">Private veranda overlooking the emerald Tungabhadra Canal and twilight boulder ridges.</p>
-              <ul class="stay-perks">
-                <li>✦ Private open-air veranda</li>
-                <li>✦ En-suite stone bathroom</li>
-                <li>✦ Canal breeze ventilation</li>
-              </ul>
-            </div>
-          </article>
-
-          <!-- Card 2 -->
-          <article class="stay-card reveal-elem reveal-up delay-2">
-            <div class="stay-media">
-              <img src="./maya-luxury-villa.webp" alt="Private Cottage Suite Sanctuary" class="stay-card-img" loading="lazy">
-              <div class="stay-badge">VALLEY RETREAT</div>
-            </div>
-            <div class="stay-body">
-              <h3 class="stay-title">Garden Valley Sanctuary</h3>
-              <p class="stay-desc">Comfortable, unpretentious living spaces framed by native gardens and monolithic granite outcrops.</p>
-              <ul class="stay-perks">
-                <li>✦ Sculpted garden outlook</li>
-                <li>✦ Natural rock cooling</li>
-                <li>✦ Handcrafted teak finishes</li>
-              </ul>
-            </div>
-          </article>
-
-          <!-- Card 3 -->
-          <article class="stay-card reveal-elem reveal-up delay-3">
-            <div class="stay-media">
-              <img src="./maya-stone-architecture.webp" alt="Stone Veranda Suite Living" class="stay-card-img" loading="lazy">
-              <div class="stay-badge">GRANITE SUITE</div>
-            </div>
-            <div class="stay-body">
-              <h3 class="stay-title">Boulder Terrace Suite</h3>
-              <p class="stay-desc">Secluded stone breezeway accommodations designed for afternoon reading and twilight tranquility.</p>
-              <ul class="stay-perks">
-                <li>✦ Shaded stone courtyard</li>
-                <li>✦ Quiet reading nooks</li>
-                <li>✦ Sunset horizon vistas</li>
-              </ul>
-            </div>
-          </article>
-        </div>
-
-        <!-- Direct Reservation Callout -->
-        <div class="stay-booking-strip reveal-elem reveal-up">
-          <div class="strip-text-block">
-            <h3 class="strip-heading">Reserve Directly with Our Concierge</h3>
-            <p class="strip-sub">Personalized arrangements, best seasonal rates, and real-time cottage availability.</p>
-          </div>
-          <div class="strip-cta-buttons">
-            <a href="tel:+919380376356" class="btn-luxury-primary">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <span>CALL: +91 93803 76356</span>
-            </a>
-            <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer" class="btn-luxury-outline">
-              <span>WHATSAPP CONCIERGE</span>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         4. DINING & PAVILIONS
-         Open-air pavilions, thatched architecture, river dining
-    ===================================================== -->
-    <section class="section-editorial dining-section" id="dining">
-      <div class="editorial-container">
-        
-        <div class="dining-split-layout">
-          <!-- Left Large Featured Visual with Architectural Curtain Reveal -->
-          <div class="dining-visual-side reveal-elem reveal-curtain">
-            <div class="image-frame-luxury">
-              <img src="./maya-hero-luxury.webp" alt="Open-Air Thatched Dining Pavilion Lounge" class="luxury-img" loading="lazy">
-              <div class="frame-corner-tag">OPEN PAVILION LOUNGE</div>
-            </div>
-          </div>
-
-          <!-- Right Narrative Panel -->
-          <div class="dining-narrative-side reveal-elem reveal-right">
-            <span class="section-tag-gold">✦ OPEN-AIR DINING</span>
-            <h2 class="editorial-title">
-              MEALS BENEATH<br><span class="title-accent">THATCHED ROOFS.</span>
-            </h2>
-            <div class="gold-rule"></div>
-            <p class="editorial-body">
-              Dine in spacious open pavilions constructed from natural bamboo, local granite stone, and high thatched ceilings. Designed to channel the evening breeze off the water while you savor wholesome local flavors.
-            </p>
-            <p class="editorial-body secondary">
-              From morning South Indian filter coffee watching the mist rise over the canal to peaceful twilight dinners under warm brass lanterns, dining at Maya Valley is an unhurried communal pleasure.
-            </p>
-
-            <div class="dining-highlights">
-              <div class="d-highlight-box">
-                <span class="d-icon">🍵</span>
-                <span class="d-title">Morning Filter Coffee</span>
-                <span class="d-desc">Served as the sun hits the boulder ridges</span>
-              </div>
-              <div class="d-highlight-box">
-                <span class="d-icon">🌴</span>
-                <span class="d-title">Open-Air Seating</span>
-                <span class="d-desc">Low cushion seating & traditional tables</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         5. EXPERIENCES / THE LANDSCAPE
-         Granite boulder trails, UNESCO monuments at sunrise
-    ===================================================== -->
-    <section class="section-editorial experiences-section" id="experiences">
-      <div class="editorial-container">
-        
-        <div class="section-header-center reveal-elem reveal-up">
-          <span class="section-tag-gold">✦ THE DESTINATION</span>
-          <h2 class="section-headline-large">SURROUNDED BY HAMPI.</h2>
-          <p class="section-lead-text">
-            Step outside your door directly into one of the world's most surreal geological and historical landscapes.
-          </p>
-        </div>
-
-        <div class="experience-bento-grid">
-          <!-- Bento 1: Large Vista with Zoom-Out Horizon Reveal -->
-          <div class="bento-card bento-wide reveal-elem reveal-zoom-out delay-1">
-            <div class="bento-media">
-              <img src="./maya-hampi-vista.webp" alt="Hampi Boulder Landscape Vista" class="bento-img" loading="lazy">
-              <div class="bento-scrim"></div>
-            </div>
-            <div class="bento-content">
-              <span class="bento-tag">HISTORICAL LANDSCAPE</span>
-              <h3 class="bento-title">UNESCO World Heritage Monuments</h3>
-              <p class="bento-desc">Centuries-old stone temples, chariot ruins, and bazaar streets lie just minutes away across the river valley.</p>
-            </div>
-          </div>
-
-          <!-- Bento 2: Stone Architecture -->
-          <div class="bento-card reveal-elem reveal-up delay-2">
-            <div class="bento-media">
-              <img src="./maya-arrival-pavilion.webp" alt="Arrival Pavilions and Sculpted Walkway" class="bento-img" loading="lazy">
-              <div class="bento-scrim"></div>
-            </div>
-            <div class="bento-content">
-              <span class="bento-tag">ARRIVAL</span>
-              <h3 class="bento-title">Paved Stone Pavilions</h3>
-              <p class="bento-desc">Traditional architecture built in deep harmony with the land.</p>
-            </div>
-          </div>
-
-          <!-- Bento 3: Canal Side -->
-          <div class="bento-card reveal-elem reveal-up delay-3">
-            <div class="bento-media">
-              <img src="./maya-canal-grounds.webp" alt="Lush Canal Walkway and Gardens" class="bento-img" loading="lazy">
-              <div class="bento-scrim"></div>
-            </div>
-            <div class="bento-content">
-              <span class="bento-tag">WATERFRONT</span>
-              <h3 class="bento-title">Tungabhadra Canal Walks</h3>
-              <p class="bento-desc">Slow morning strolls along crystal water reflections and palm groves.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         6. CURATED GALLERY
-         Magazine-style editorial layout, lightbox, sharp real photos
-    ===================================================== -->
-    <section class="section-editorial gallery-section" id="gallery">
-      <div class="editorial-container">
-        
-        <div class="gallery-header-row reveal-elem reveal-up">
-          <div>
-            <span class="section-tag-gold">✦ VISUAL CHRONICLE</span>
-            <h2 class="editorial-title">RETREAT SPACES</h2>
-          </div>
-          <p class="gallery-lead">Click any photograph to view in high-resolution fullscreen.</p>
-        </div>
-
-        <div class="editorial-gallery-grid" id="editorialGalleryGrid">
-
-          <!-- Item 1: Large Featured with Editorial Zoom-In -->
-          <div class="gallery-card card-featured reveal-elem reveal-zoom-in delay-1" data-gallery-index="0" data-caption="Arrival Pavilions & Landscaped Stone Paths">
-            <div class="g-media">
-              <img src="./maya-arrival-pavilion.webp" alt="Arrival Pavilions & Paths" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Arrival Pavilions</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 2 -->
-          <div class="gallery-card reveal-elem reveal-up delay-2" data-gallery-index="1" data-caption="Hampi Monolithic Boulders & Ancient Valley Vista">
-            <div class="g-media">
-              <img src="./maya-hampi-vista.webp" alt="Hampi Boulder Landscape Vista" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Hampi Valley Vista</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 3 -->
-          <div class="gallery-card reveal-elem reveal-up delay-3" data-gallery-index="2" data-caption="Canal-Side Guest Cottages & Lawns">
-            <div class="g-media">
-              <img src="./maya-canal-grounds.webp" alt="Canal-Side Cottages" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Cottages on the Canal</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 4 -->
-          <div class="gallery-card reveal-elem reveal-up delay-1" data-gallery-index="3" data-caption="Thatched Roof Dining Pavilion & Open Lounge">
-            <div class="g-media">
-              <img src="./maya-hero-luxury.webp" alt="Thatched Pavilion Lounge" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Thatched Dining Pavilion</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 5 -->
-          <div class="gallery-card reveal-elem reveal-up delay-2" data-gallery-index="4" data-caption="Sunset Veranda Views over Boulder Ridges">
-            <div class="g-media">
-              <img src="./maya-sunset-terrace.webp" alt="Sunset Veranda" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Sunset Veranda</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 6 -->
-          <div class="gallery-card reveal-elem reveal-up delay-3" data-gallery-index="5" data-caption="Handcrafted Stone Verandas & Courtyards">
-            <div class="g-media">
-              <img src="./maya-stone-architecture.webp" alt="Handcrafted Stone Verandas" class="g-img" loading="lazy">
-              <div class="g-overlay">
-                <span class="g-zoom-icon">⊕</span>
-                <span class="g-caption-text">Stone Breezeways</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         7. LOCATION & ARRIVAL
-         Balanced split: Real photo + Google Map + verified details
-    ===================================================== -->
-    <section class="section-editorial location-section" id="location">
-      <div class="editorial-container">
-        
-        <div class="location-card-container reveal-elem reveal-up">
-          <div class="location-info-side">
-            <span class="section-tag-gold">✦ LOCATION & ARRIVAL</span>
-            <h2 class="editorial-title">
-              FIND YOUR WAY TO<br><span class="title-accent">MAYA VALLEY.</span>
-            </h2>
-            <div class="gold-rule"></div>
-
-            <address class="location-address">
-              <strong>Maya Valley Resort Hampi</strong><br>
-              Tungabhadra Left Canal,<br>
-              Huligi - Gangavathi Rd, Basapur,<br>
-              Hampi, Karnataka 583234, India
-            </address>
-
-            <div class="location-meta-grid">
-              <div class="loc-meta-item">
-                <span class="loc-meta-label">CANAL FRONT</span>
-                <span class="loc-meta-val">Tungabhadra Left Bank</span>
-              </div>
-              <div class="loc-meta-item">
-                <span class="loc-meta-label">HISTORIC RUINS</span>
-                <span class="loc-meta-val">10–15 Mins Away</span>
-              </div>
-              <div class="loc-meta-item">
-                <span class="loc-meta-label">DIRECT PHONE</span>
-                <a href="tel:+919380376356" class="loc-phone-link">+91 93803 76356</a>
-              </div>
-            </div>
-
-            <div class="location-actions">
-              <a href="https://www.google.com/maps/search/?api=1&query=Maya%20Valley%20Resort%20Hampi" target="_blank" rel="noopener noreferrer" class="btn-luxury-primary">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 7 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
-                <span>GET DIRECTIONS</span>
-              </a>
-              <a href="tel:+919380376356" class="btn-luxury-outline">
-                <span>CALL CONCIERGE</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="location-map-side">
-            <iframe
-              title="Google Map location of Maya Valley Resort Hampi"
-              src="https://maps.google.com/maps?q=Maya%20Valley%20Resort%20Hampi%20Basapur%20Karnataka%20583234&t=&z=14&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="100%"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =====================================================
-         8. CONTACT & FINALE
-         Full-width cinematic background, warm gold tones, direct contact
-    ===================================================== -->
-    <section class="section-editorial finale-section" id="contact">
-      <div class="finale-bg-wrap">
-        <img src="./maya-hero-luxury.webp" alt="Maya Valley Twilight" class="finale-bg-img" loading="lazy">
-        <div class="finale-vignette"></div>
-      </div>
-
-      <div class="editorial-container finale-content reveal-elem reveal-zoom-out">
-        <span class="section-tag-gold">✦ THE JOURNEY AWAITS</span>
-        <h2 class="finale-monumental-title">
-          <span>SEE YOU</span>
-          <span>IN HAMPI.</span>
-        </h2>
-
-        <div class="finale-contact-box">
-          <p class="finale-resort-name">MAYA VALLEY RESORT HAMPI</p>
-          <a href="tel:+919380376356" class="finale-phone-num">+91 93803 76356</a>
-          <p class="finale-address-line">Basapur, Tungabhadra Left Canal, Karnataka 583234, India</p>
-
-          <div class="finale-btn-row">
-            <a href="tel:+919380376356" class="btn-luxury-primary">CALL RESORT</a>
-            <a href="https://wa.me/919380376356" target="_blank" rel="noopener noreferrer" class="btn-luxury-outline">WHATSAPP</a>
-            <a href="https://www.google.com/maps/search/?api=1&query=Maya%20Valley%20Resort%20Hampi" target="_blank" rel="noopener noreferrer" class="btn-luxury-outline">DIRECTIONS</a>
-          </div>
-        </div>
-
-        <footer class="finale-bottom-bar">
-          <p>© 2026 Maya Valley Resort Hampi. All rights reserved. Basapur, Karnataka.</p>
-        </footer>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- =====================================================
-       CLEAN FULLSCREEN LIGHTBOX (KEYBOARD ESC & ARROW NAVIGATION)
-  ===================================================== -->
-  <dialog class="luxury-lightbox" id="luxuryLightbox" aria-label="Photo Lightbox">
-    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
-    <div class="lightbox-shell">
-      <header class="lightbox-bar-top">
-        <span class="lightbox-counter" id="lightboxCounter">01 / 06</span>
-        <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close Lightbox">✕</button>
-      </header>
-
-      <div class="lightbox-viewport">
-        <button type="button" class="lightbox-nav-arrow prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
-        <div class="lightbox-img-holder">
-          <img src="" alt="" class="lightbox-active-img" id="lightboxImg">
-        </div>
-        <button type="button" class="lightbox-nav-arrow next" id="lightboxNext" aria-label="Next photo">›</button>
-      </div>
-
-      <footer class="lightbox-bar-bottom">
-        <p class="lightbox-caption" id="lightboxCaption"></p>
-      </footer>
-    </div>
-  </dialog>
-
-  <script src="./script.js"></script>
+  <!-- Main Vanilla JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
